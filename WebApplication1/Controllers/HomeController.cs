@@ -13,14 +13,14 @@ namespace WebApplication1.Controllers
         PennyAppEntities db = new PennyAppEntities();
         public ActionResult Index()
         {
-           int numberofrecord = 4000;
+           int numberofrecord1 =  4000;
             string data = JsonConvert.SerializeObject(db.Trades.Select(x => new {
                 x.Date,
                 x.Close,
                 x.Open,
                 x.Low,
                 x.High
-            }).ToList().Take(numberofrecord));
+            }).ToList().Take(numberofrecord1));
             ViewBag.data = data;
              //string jsonData = JsonConvert.SerializeObject(data);
              // ViewBag.data = jsonData; 
@@ -28,9 +28,7 @@ namespace WebApplication1.Controllers
         }
 
         public ActionResult graph()
-        {
-
-         
+        { 
             return View();
         }
         public ActionResult About()

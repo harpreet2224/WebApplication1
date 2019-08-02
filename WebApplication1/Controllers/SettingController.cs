@@ -8,7 +8,7 @@ namespace PennyApp.Controllers
 {
     public class SettingController : Controller
     {
-        // GET: Setting
+       
         public ActionResult option()
         {
             return View();
@@ -17,6 +17,7 @@ namespace PennyApp.Controllers
         public ActionResult Feature()
         {
             return View();
+
         }
 
         public ActionResult Simulation()
