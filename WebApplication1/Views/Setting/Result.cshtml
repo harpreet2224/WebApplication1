@@ -1,0 +1,234 @@
+﻿<!DOCTYPE html>
+<title>My Example</title>
+<style>
+    table {
+        border-collapse: collapse;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
+        text-align: left;
+    }
+
+    tr:nth-child(even) {
+        background-color: #fff;
+    }
+
+    tr:nth-child(odd) {
+        background-color: #eee;
+    }
+</style>
+
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Ticker</th>
+        <th>Amount</th>
+        <th>Entry Px</th>
+        <th>Exlt1</th>
+        <th>Price Now</th>
+        <th>Realized</th>
+        <th>Unrealized</th>
+        <th>Total Gain</th>
+        <th>Amount</th>
+        <th>OHLC</th>
+        <th>Eq.Curve</th>
+    </tr>
+    <tr>
+        <td>2019-04-01</td>
+        <td>AEZS</td>
+        <td>10000</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <th><button type="button" class="btn btn-info" id="Penny">Show</button></th>
+        <th><button type="button" class="btn btn-info" id="Equity">Show</button></th>
+    </tr>
+    <tr>
+        <td>2019-04-01</td>
+        <td>AMD</td>
+        <td>10000</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <th><button type="button" class="btn btn-info" id="Penny1">Show</button></th>
+        <th><button type="button" class="btn btn-info">Show</button></th>
+    </tr>
+    <tr>
+        <td>2019-04-01</td>
+        <td>AMRN</td>
+        <td>10000</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <th><button type="button" class="btn btn-info" id="Penny2">Show</button></th>
+        <th><button type="button" class="btn btn-info">Show</button></th>
+    </tr>
+    <tr>
+        <td>2019-04-01</td>
+        <td>ARQL</td>
+        <td>10000</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <th><button type="button" class="btn btn-info" id="Penny3">Show</button></th>
+        <th><button type="button" class="btn btn-info">Show</button></th>
+    </tr>
+    <tr>
+        <td>2019-04-01</td>
+        <td>ARRY</td>
+        <td>10000</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <th><button type="button" class="btn btn-info" id="Penny4">Show</button></th>
+        <th><button type="button" class="btn btn-info">Show</button></th>
+    </tr>
+    <tr>
+        <td>2019-04-01</td>
+        <td>ARWR</td>
+        <td>10000</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <th><button type="button" class="btn btn-info" id="Penny5">Show</button></th>
+        <th><button type="button" class="btn btn-info">Show</button></th>
+    </tr>
+    <tr>
+        <td>2019-04-01</td>
+        <td>ATAI</td>
+        <td>10000</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <th><button type="button" class="btn btn-info" id="Penny6">Show</button></th>
+        <th><button type="button" class="btn btn-info">Show</button></th>
+    </tr>
+    <tr>
+        <td>2019-04-01</td>
+        <td>BCRX</td>
+        <td>10000</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <th><button type="button" class="btn btn-info" id="Penny7">Show</button></th>
+        <th><button type="button" class="btn btn-info">Show</button></th>
+    </tr>
+    <tr>
+        <td>2019-04-01</td>
+        <td>CDXS</td>
+        <td>10000</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <th><button type="button" class="btn btn-info" id="Penny8">Show</button></th>
+        <th><button type="button" class="btn btn-info">Show</button></th>
+    </tr>
+    <tr>
+        <td>2019-04-01</td>
+        <td>CLWT</td>
+        <td>10000</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <th><button type="button" class="btn btn-info" id="Penny9">Show</button></th>
+        <th><button type="button" class="btn btn-info">Show</button></th>
+    <tr>
+        <td>2019-04-01</td>
+        <td>CODA</td>
+        <td>10000</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <th><button type="button" class="btn btn-info" id="Penny10">Show</button></th>
+        <th><button type="button" class="btn btn-info">Show</button></th>
+    <tr>
+        <td>2019-04-01</td>
+        <td>CPRX</td>
+        <td>10000</td>
+        <td>0</td>
+        <td>1</td>
+        <td>0</td>
+        <td>0</td>
+        <td>1</td>
+        <td>1</td>
+        <td>0</td>
+        <th><button type="button" class="btn btn-info" id="Penny4">Show</button></th>
+        <th><button type="button" class="btn btn-info">Show</button></th>
+
+    </tr>
+   
+</table>
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+<script>
+    $('#Penny').click(function () {
+        document.location = '@Url.Action("Index","Home")';
+    });
+
+        $('#Penny1').click(function () {
+        document.location = '@Url.Action("Index","Home")';
+        });
+
+        $('#Penny2').click(function () {
+        document.location = '@Url.Action("Index","Home")';
+        });
+
+        $('#Penny3').click(function () {
+        document.location = '@Url.Action("Index","Home")';
+        });
+
+           $('#Penny4').click(function () {
+        document.location = '@Url.Action("Index","Home")';
+        });
+
+    $('#Equity').click(function () {
+        document.location = '@Url.Action("Equitycurve","Home")'
+    });
+
+    var a = document.getElementById("Penny").nodeValue;
+</script>
