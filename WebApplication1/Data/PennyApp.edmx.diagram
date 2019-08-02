@@ -4,8 +4,14 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="521e509aa899455782da74efc8629425" Name="Diagram1" ZoomLevel="34">
-        <EntityTypeShape EntityType="PennyAppModel.Trade" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
+      <Diagram DiagramId="521e509aa899455782da74efc8629425" Name="Diagram1" ZoomLevel="78">
+        <EntityTypeShape EntityType="PennyAppModel.Filter" Width="1.5" PointX="0.75" PointY="0.75" />
+        <EntityTypeShape EntityType="PennyAppModel.ReduceBy" Width="1.5" PointX="2.75" PointY="0.75" />
+        <EntityTypeShape EntityType="PennyAppModel.ReportPeriod" Width="1.5" PointX="0.75" PointY="3.75" />
+        <EntityTypeShape EntityType="PennyAppModel.Simulation" Width="1.5" PointX="2.75" PointY="3.75" />
+        <EntityTypeShape EntityType="PennyAppModel.StopOption" Width="1.5" PointX="4.75" PointY="0.75" />
+        <EntityTypeShape EntityType="PennyAppModel.Feature" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="PennyAppModel.Trade" Width="1.5" PointX="5.375" PointY="6.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

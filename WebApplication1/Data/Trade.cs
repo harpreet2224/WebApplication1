@@ -15,65 +15,14 @@ namespace PennyApp.Data
     public partial class Trade
     {
         public int Id { get; set; }
-        public Nullable<System.DateTime> Date1 { get; set; }
-        public Nullable<System.DateTime> Time1 { get; set; }
-        public Nullable<double> Open1 { get; set; }
-        public Nullable<double> High1 { get; set; }
-        public Nullable<double> Low1 { get; set; }
-        public Nullable<double> Close1 { get; set; }
-        public Nullable<double> Vol1 { get; set; }
-        public Nullable<double> OI1 { get; set; }
-        public Nullable<double> Signal11 { get; set; }
-        public Nullable<double> Signal21 { get; set; }
-        public Nullable<double> Signal31 { get; set; }
-        public Nullable<double> Entry1 { get; set; }
-        public string Entry_Price1 { get; set; }
-        public string Shares1 { get; set; }
-        public string Stop_From_Entry1 { get; set; }
-        public string Stop_From_TriggerLow1 { get; set; }
-        public string Trail_Stop_High1 { get; set; }
-        public string Trail_Stop_Close1 { get; set; }
-        public string Target1_Share_Price1 { get; set; }
-        public string Target1_Account1 { get; set; }
-        public string Target21 { get; set; }
-        public string F221 { get; set; }
-        public string F231 { get; set; }
-        public string F241 { get; set; }
-        public string F251 { get; set; }
-        public string F261 { get; set; }
-        public string F271 { get; set; }
-        public Nullable<double> F281 { get; set; }
-        public string F291 { get; set; }
-        public string F301 { get; set; }
-        public Nullable<System.DateTime> Date { get; set; }
-        public Nullable<System.DateTime> Time { get; set; }
+        public string Ticker { get; set; }
+        public string Date { get; set; }
+        public string Time { get; set; }
         public Nullable<double> Open { get; set; }
         public Nullable<double> High { get; set; }
         public Nullable<double> Low { get; set; }
         public Nullable<double> Close { get; set; }
-        public Nullable<double> Vol { get; set; }
-        public Nullable<double> OI { get; set; }
-        public Nullable<double> Signal1 { get; set; }
-        public Nullable<double> Signal2 { get; set; }
-        public Nullable<double> Signal3 { get; set; }
-        public Nullable<double> Entry { get; set; }
-        public string Entry_Price { get; set; }
-        public string Shares { get; set; }
-        public string Stop_From_Entry { get; set; }
-        public string Stop_From_TriggerLow { get; set; }
-        public string Trail_Stop_High { get; set; }
-        public string Trail_Stop_Close { get; set; }
-        public string Target1_Share_Price { get; set; }
-        public string Target1_Account { get; set; }
-        public string Target2 { get; set; }
-        public string F22 { get; set; }
-        public string F23 { get; set; }
-        public string F24 { get; set; }
-        public string F25 { get; set; }
-        public string F26 { get; set; }
-        public string F27 { get; set; }
-        public Nullable<double> F28 { get; set; }
-        public string F29 { get; set; }
-        public string F30 { get; set; }
+        public Nullable<int> Vol { get; set; }
+        public Nullable<int> OI { get; set; }
     }
 }

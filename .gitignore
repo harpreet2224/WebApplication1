@@ -3,3 +3,7 @@
 ################################################################################
 
 /.vs/WebApplication1
+/WebApplication1/obj/Debug
+/WebApplication1/bin
+/WebApplication1/WebApplication1.csproj.user
+/packages

@@ -25,6 +25,12 @@ namespace PennyApp.Data
             throw new UnintentionalCodeFirstException();
         }
     
+        public virtual DbSet<Filter> Filters { get; set; }
+        public virtual DbSet<ReduceBy> ReduceBies { get; set; }
+        public virtual DbSet<ReportPeriod> ReportPeriods { get; set; }
+        public virtual DbSet<Simulation> Simulations { get; set; }
+        public virtual DbSet<StopOption> StopOptions { get; set; }
+        public virtual DbSet<Feature> Features { get; set; }
         public virtual DbSet<Trade> Trades { get; set; }
     }
 }

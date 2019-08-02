@@ -11,11 +11,13 @@ using static PennyApp.Models.Trades;
 using System.IO.MemoryMappedFiles;
 using Microsoft.AspNetCore.Http;
 using PennyApp.Models;
+using PennyApp.Data;
 
 namespace PennyApp.Controllers
 {
     public class TradesController : Controller
     {
+        PennyAppEntities context = new PennyAppEntities();
         public ActionResult Index(List<IFormFile> files)
         {
             return View("Trades");
@@ -24,43 +26,60 @@ namespace PennyApp.Controllers
         [HttpPost]
         public ActionResult OHLCcurve(List<HttpPostedFileBase> files)
         {
-           Trades trades = new Trades();
+            Trade trade = new Trade();
+
             var result = new System.Text.StringBuilder();
 
             string filePath = string.Empty;
+            string filename = string.Empty;
             //Read the contents of CSV file.
             string path = Server.MapPath("~/Uploads/");
+            int count = 0;
             foreach (var file in files)
             {
+                filename = file.FileName;
+                string[] filename1 = filename.Split('.');
                 filePath = path + Path.GetFileName(file.FileName);
                 string extension = Path.GetExtension(file.FileName);
                 file.SaveAs(filePath);
                 string csvData = System.IO.File.ReadAllText(filePath);
-             
+
                 foreach (string row in csvData.Split('\n'))
                 {
-                    string[] data=row.Split(',');
-                    if (data[0]== "\"Date\"")
+                    string[] data = row.Split(',');
+                    if (data[0] != "")
                     {
-                        continue;
+                        if (data[0] == "\"Date\"")
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            trade.Ticker = filename1[0];
+                            trade.Date = data[0];
+                            trade.Time = data[1];
+                            trade.Open = float.Parse(data[2]);
+                            trade.High = float.Parse(data[3]);
+                            trade.Low = float.Parse(data[4]);
+                            trade.Close = float.Parse(data[5]);
+                            trade.Vol = int.Parse(data[6]);
+                            trade.OI = int.Parse(data[7]);
+                            count++;
+
+                            pennyApp1Entities1.Trades.Add(trade);
+                            pennyApp1Entities1.SaveChanges();
+
+                        }
+
                     }
-                    else
-                    {
-                        trades.Ticker = filePath;
-                        trades.Date = DateTime.Parse(data[0]);
-                        trades.Time = Convert.ToDateTime(data[1]);
-                        trades.Open = float.Parse(data[2]);
-                        trades.High = float.Parse(data[3]);
-                        trades.Low = float.Parse(data[4]);
-                        trades.Close = float.Parse(data[5]);
-                        trades.Vol = Double.Parse(data[6]);
-                        trades.OI = int.Parse(data[7]);
-                      
-                    }
+
+
+
                 }
-               
+
+
             }
-            return Json(result);
+            return Json(count + " rows inserted");
         }
     }
 }

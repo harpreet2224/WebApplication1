@@ -178,38 +178,11 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SettingController.cs" />
     <Compile Include="Controllers\TradesController.cs" />
-    <Compile Include="Data\AspNetRole.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\AspNetRoleClaim.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\AspNetUser.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\AspNetUserClaim.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\AspNetUserLogin.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\AspNetUserToken.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Category.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\C__EFMigrationsHistory.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\Feature.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
+      <DependentUpon>PennyApp.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Filter.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\MSreplication_options.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
+      <DependentUpon>PennyApp.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\PennyApp.Context.cs">
       <AutoGen>True</AutoGen>
@@ -226,50 +199,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>PennyApp.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Data\Question.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
-    </Compile>
     <Compile Include="Data\ReduceBy.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
+      <DependentUpon>PennyApp.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\ReportPeriod.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
+      <DependentUpon>PennyApp.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Simulation.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\spt_fallback_db.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\spt_fallback_dev.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\spt_fallback_usg.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\spt_monitor.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
+      <DependentUpon>PennyApp.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\StopOption.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
+      <DependentUpon>PennyApp.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Trade.cs">
-      <DependentUpon>Trades.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Trades.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Trades.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Trades.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Trades.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Data\Trades.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Trades.edmx</DependentUpon>
+      <DependentUpon>PennyApp.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -292,16 +235,6 @@
       <DependentUpon>PennyApp.edmx</DependentUpon>
       <LastGenOutput>PennyApp.cs</LastGenOutput>
     </Content>
-    <Content Include="Data\Trades.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Trades.edmx</DependentUpon>
-      <LastGenOutput>Trades.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Data\Trades.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Trades.edmx</DependentUpon>
-      <LastGenOutput>Trades.cs</LastGenOutput>
-    </Content>
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -314,13 +247,6 @@
     </EntityDeploy>
     <Content Include="Data\PennyApp.edmx.diagram">
       <DependentUpon>PennyApp.edmx</DependentUpon>
-    </Content>
-    <EntityDeploy Include="Data\Trades.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Trades.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Data\Trades.edmx.diagram">
-      <DependentUpon>Trades.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
