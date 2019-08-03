@@ -1,0 +1,551 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="PennyAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'PennyApp.dbo.Feature' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Feature">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Lower_BBand" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Moving_Avg" Type="int" />
+          <Property Name="Moving_Avg_Filter" Type="int" />
+          <Property Name="Volume" Type="int" />
+          <Property Name="Volume_Filter" Type="int" />
+          <Property Name="Day_High" Type="int" />
+          <Property Name="Performance" Type="int" />
+          <Property Name="Consecutive_High" Type="int" />
+          <Property Name="Consecutive_Low" Type="int" />
+          <Property Name="Consecutive_Low_Filter" Type="int" />
+          <Property Name="RSI" Type="int" />
+          <Property Name="RSIfrom" Type="int" />
+          <Property Name="RSIto" Type="int" />
+          <Property Name="Stochastics" Type="int" />
+          <Property Name="StochasticsFrom" Type="int" />
+          <Property Name="StochasticsTo" Type="int" />
+          <Property Name="MACD_Hist" Type="int" />
+          <Property Name="MACD_HistFrom" Type="int" />
+          <Property Name="MACD_HistTo" Type="int" />
+          <Property Name="Upper_BBand" Type="int" />
+          <Property Name="Upper_BBandFrom" Type="int" />
+          <Property Name="Upper_BBandTo" Type="int" />
+          <Property Name="Lower_BBand" Type="int" Nullable="false" />
+          <Property Name="Lower_BBandFrom" Type="int" />
+          <Property Name="Lower_BBandTo" Type="int" />
+        </EntityType>
+        <EntityType Name="Filters">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Value" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ReduceBy">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="value" Type="int" />
+        </EntityType>
+        <EntityType Name="ReportPeriod">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Report_Period" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Simulation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Stratgy" Type="nvarchar" MaxLength="500" />
+          <Property Name="DailyOrWeekly" Type="int" />
+          <Property Name="DollerPerPosition" Type="int" />
+          <Property Name="UseAccountDollers" Type="int" />
+          <Property Name="Target" Type="int" />
+          <Property Name="ReduceBy" Type="int" />
+        </EntityType>
+        <EntityType Name="StopOption">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Stop_Option" Type="int" />
+          <Property Name="Stop_Option_Status" Type="int" />
+          <Property Name="Stop_Option_Value" Type="int" />
+          <Property Name="Trail_Stop" Type="int" />
+          <Property Name="Trail_Stop_Status" Type="int" />
+          <Property Name="Trail_Stop_Value" Type="int" />
+          <Property Name="Price_On" Type="int" />
+          <Property Name="Price_Status" Type="int" />
+          <Property Name="Price_ValueFrom" Type="int" />
+          <Property Name="Price_ValueTo" Type="int" />
+          <Property Name="Valume_On" Type="int" />
+          <Property Name="Valume_Status" Type="int" />
+          <Property Name="Avg_Volume_On" Type="int" />
+          <Property Name="Avg_Volume_Status" Type="int" />
+          <Property Name="Avg_Volume_Value1" Type="int" />
+          <Property Name="Avg_Volume_Value2" Type="int" />
+        </EntityType>
+        <EntityType Name="Trade">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Date1" Type="datetime" />
+          <Property Name="Time1" Type="datetime" />
+          <Property Name="Open1" Type="float" />
+          <Property Name="High1" Type="float" />
+          <Property Name="Low1" Type="float" />
+          <Property Name="Close1" Type="float" />
+          <Property Name="Vol1" Type="float" />
+          <Property Name="OI1" Type="float" />
+          <Property Name="Signal11" Type="float" />
+          <Property Name="Signal21" Type="float" />
+          <Property Name="Signal31" Type="float" />
+          <Property Name="Entry1" Type="float" />
+          <Property Name="Entry Price1" Type="nvarchar" MaxLength="255" />
+          <Property Name="Shares1" Type="nvarchar" MaxLength="255" />
+          <Property Name="Stop From Entry1" Type="nvarchar" MaxLength="255" />
+          <Property Name="Stop From TriggerLow1" Type="nvarchar" MaxLength="255" />
+          <Property Name="Trail Stop High1" Type="nvarchar" MaxLength="255" />
+          <Property Name="Trail Stop Close1" Type="nvarchar" MaxLength="255" />
+          <Property Name="Target1 Share Price1" Type="nvarchar" MaxLength="255" />
+          <Property Name="Target1 Account1" Type="nvarchar" MaxLength="255" />
+          <Property Name="Target21" Type="nvarchar" MaxLength="255" />
+          <Property Name="F221" Type="nvarchar" MaxLength="255" />
+          <Property Name="F231" Type="nvarchar" MaxLength="255" />
+          <Property Name="F241" Type="nvarchar" MaxLength="255" />
+          <Property Name="F251" Type="nvarchar" MaxLength="255" />
+          <Property Name="F261" Type="nvarchar" MaxLength="255" />
+          <Property Name="F271" Type="nvarchar" MaxLength="255" />
+          <Property Name="F281" Type="float" />
+          <Property Name="F291" Type="nvarchar" MaxLength="255" />
+          <Property Name="F301" Type="nvarchar" MaxLength="255" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="Time" Type="datetime" />
+          <Property Name="Open" Type="float" />
+          <Property Name="High" Type="float" />
+          <Property Name="Low" Type="float" />
+          <Property Name="Close" Type="float" />
+          <Property Name="Vol" Type="float" />
+          <Property Name="OI" Type="float" />
+          <Property Name="Signal1" Type="float" />
+          <Property Name="Signal2" Type="float" />
+          <Property Name="Signal3" Type="float" />
+          <Property Name="Entry" Type="float" />
+          <Property Name="Entry Price" Type="nvarchar" MaxLength="255" />
+          <Property Name="Shares" Type="nvarchar" MaxLength="255" />
+          <Property Name="Stop From Entry" Type="nvarchar" MaxLength="255" />
+          <Property Name="Stop From TriggerLow" Type="nvarchar" MaxLength="255" />
+          <Property Name="Trail Stop High" Type="nvarchar" MaxLength="255" />
+          <Property Name="Trail Stop Close" Type="nvarchar" MaxLength="255" />
+          <Property Name="Target1 Share Price" Type="nvarchar" MaxLength="255" />
+          <Property Name="Target1 Account" Type="nvarchar" MaxLength="255" />
+          <Property Name="Target2" Type="nvarchar" MaxLength="255" />
+          <Property Name="F22" Type="nvarchar" MaxLength="255" />
+          <Property Name="F23" Type="nvarchar" MaxLength="255" />
+          <Property Name="F24" Type="nvarchar" MaxLength="255" />
+          <Property Name="F25" Type="nvarchar" MaxLength="255" />
+          <Property Name="F26" Type="nvarchar" MaxLength="255" />
+          <Property Name="F27" Type="nvarchar" MaxLength="255" />
+          <Property Name="F28" Type="float" />
+          <Property Name="F29" Type="nvarchar" MaxLength="255" />
+          <Property Name="F30" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityContainer Name="PennyAppModelStoreContainer">
+          <EntitySet Name="Filters" EntityType="Self.Filters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReduceBy" EntityType="Self.ReduceBy" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReportPeriod" EntityType="Self.ReportPeriod" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Simulation" EntityType="Self.Simulation" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StopOption" EntityType="Self.StopOption" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Trade" EntityType="Self.Trade" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Feature" EntityType="Self.Feature" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Feature].[Id] AS [Id], 
+    [Feature].[Moving_Avg] AS [Moving_Avg], 
+    [Feature].[Moving_Avg_Filter] AS [Moving_Avg_Filter], 
+    [Feature].[Volume] AS [Volume], 
+    [Feature].[Volume_Filter] AS [Volume_Filter], 
+    [Feature].[Day_High] AS [Day_High], 
+    [Feature].[Performance] AS [Performance], 
+    [Feature].[Consecutive_High] AS [Consecutive_High], 
+    [Feature].[Consecutive_Low] AS [Consecutive_Low], 
+    [Feature].[Consecutive_Low_Filter] AS [Consecutive_Low_Filter], 
+    [Feature].[RSI] AS [RSI], 
+    [Feature].[RSIfrom] AS [RSIfrom], 
+    [Feature].[RSIto] AS [RSIto], 
+    [Feature].[Stochastics] AS [Stochastics], 
+    [Feature].[StochasticsFrom] AS [StochasticsFrom], 
+    [Feature].[StochasticsTo] AS [StochasticsTo], 
+    [Feature].[MACD_Hist] AS [MACD_Hist], 
+    [Feature].[MACD_HistFrom] AS [MACD_HistFrom], 
+    [Feature].[MACD_HistTo] AS [MACD_HistTo], 
+    [Feature].[Upper_BBand] AS [Upper_BBand], 
+    [Feature].[Upper_BBandFrom] AS [Upper_BBandFrom], 
+    [Feature].[Upper_BBandTo] AS [Upper_BBandTo], 
+    [Feature].[Lower_BBand] AS [Lower_BBand], 
+    [Feature].[Lower_BBandFrom] AS [Lower_BBandFrom], 
+    [Feature].[Lower_BBandTo] AS [Lower_BBandTo]
+    FROM [dbo].[Feature] AS [Feature]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PennyAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Trade">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Date1" Type="DateTime" Precision="3" />
+          <Property Name="Time1" Type="DateTime" Precision="3" />
+          <Property Name="Open1" Type="Double" />
+          <Property Name="High1" Type="Double" />
+          <Property Name="Low1" Type="Double" />
+          <Property Name="Close1" Type="Double" />
+          <Property Name="Vol1" Type="Double" />
+          <Property Name="OI1" Type="Double" />
+          <Property Name="Signal11" Type="Double" />
+          <Property Name="Signal21" Type="Double" />
+          <Property Name="Signal31" Type="Double" />
+          <Property Name="Entry1" Type="Double" />
+          <Property Name="Entry_Price1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Shares1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Stop_From_Entry1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Stop_From_TriggerLow1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Trail_Stop_High1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Trail_Stop_Close1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Target1_Share_Price1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Target1_Account1" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Target21" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="F221" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="F231" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="F241" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="F251" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="F261" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="F271" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="F281" Type="Double" />
+          <Property Name="F291" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="F301" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="Time" Type="DateTime" Precision="3" />
+          <Property Name="Open" Type="Double" />
+          <Property Name="High" Type="Double" />
+          <Property Name="Low" Type="Double" />
+          <Property Name="Close" Type="Double" />
+          <Property Name="Vol" Type="Double" />
+          <Property Name="OI" Type="Double" />
+          <Property Name="Signal1" Type="Double" />
+          <Property Name="Signal2" Type="Double" />
+          <Property Name="Signal3" Type="Double" />
+          <Property Name="Entry" Type="Double" />
+          <Property Name="Entry_Price" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Shares" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Stop_From_Entry" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Stop_From_TriggerLow" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Trail_Stop_High" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Trail_Stop_Close" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Target1_Share_Price" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Target1_Account" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Target2" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="F22" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="F23" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="F24" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="F25" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="F26" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="F27" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="F28" Type="Double" />
+          <Property Name="F29" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="F30" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="PennyAppEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Trades" EntityType="Self.Trade" />
+          <EntitySet Name="Filters" EntityType="PennyAppModel.Filter" />
+          <EntitySet Name="ReduceBies" EntityType="PennyAppModel.ReduceBy" />
+          <EntitySet Name="ReportPeriods" EntityType="PennyAppModel.ReportPeriod" />
+          <EntitySet Name="Simulations" EntityType="PennyAppModel.Simulation" />
+          <EntitySet Name="StopOptions" EntityType="PennyAppModel.StopOption" />
+          <EntitySet Name="Features" EntityType="PennyAppModel.Feature" />
+        </EntityContainer>
+        <EntityType Name="Filter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ReduceBy">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="value" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ReportPeriod">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Report_Period" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Simulation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Stratgy" Type="String" MaxLength="500" FixedLength="false" Unicode="true" />
+          <Property Name="DailyOrWeekly" Type="Int32" />
+          <Property Name="DollerPerPosition" Type="Int32" />
+          <Property Name="UseAccountDollers" Type="Int32" />
+          <Property Name="Target" Type="Int32" />
+          <Property Name="ReduceBy" Type="Int32" />
+        </EntityType>
+        <EntityType Name="StopOption">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Stop_Option" Type="Int32" />
+          <Property Name="Stop_Option_Status" Type="Int32" />
+          <Property Name="Stop_Option_Value" Type="Int32" />
+          <Property Name="Trail_Stop" Type="Int32" />
+          <Property Name="Trail_Stop_Status" Type="Int32" />
+          <Property Name="Trail_Stop_Value" Type="Int32" />
+          <Property Name="Price_On" Type="Int32" />
+          <Property Name="Price_Status" Type="Int32" />
+          <Property Name="Price_ValueFrom" Type="Int32" />
+          <Property Name="Price_ValueTo" Type="Int32" />
+          <Property Name="Valume_On" Type="Int32" />
+          <Property Name="Valume_Status" Type="Int32" />
+          <Property Name="Avg_Volume_On" Type="Int32" />
+          <Property Name="Avg_Volume_Status" Type="Int32" />
+          <Property Name="Avg_Volume_Value1" Type="Int32" />
+          <Property Name="Avg_Volume_Value2" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Feature">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="Lower_BBand" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Moving_Avg" Type="Int32" />
+          <Property Name="Moving_Avg_Filter" Type="Int32" />
+          <Property Name="Volume" Type="Int32" />
+          <Property Name="Volume_Filter" Type="Int32" />
+          <Property Name="Day_High" Type="Int32" />
+          <Property Name="Performance" Type="Int32" />
+          <Property Name="Consecutive_High" Type="Int32" />
+          <Property Name="Consecutive_Low" Type="Int32" />
+          <Property Name="Consecutive_Low_Filter" Type="Int32" />
+          <Property Name="RSI" Type="Int32" />
+          <Property Name="RSIfrom" Type="Int32" />
+          <Property Name="RSIto" Type="Int32" />
+          <Property Name="Stochastics" Type="Int32" />
+          <Property Name="StochasticsFrom" Type="Int32" />
+          <Property Name="StochasticsTo" Type="Int32" />
+          <Property Name="MACD_Hist" Type="Int32" />
+          <Property Name="MACD_HistFrom" Type="Int32" />
+          <Property Name="MACD_HistTo" Type="Int32" />
+          <Property Name="Upper_BBand" Type="Int32" />
+          <Property Name="Upper_BBandFrom" Type="Int32" />
+          <Property Name="Upper_BBandTo" Type="Int32" />
+          <Property Name="Lower_BBand" Type="Int32" Nullable="false" />
+          <Property Name="Lower_BBandFrom" Type="Int32" />
+          <Property Name="Lower_BBandTo" Type="Int32" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PennyAppModelStoreContainer" CdmEntityContainer="PennyAppEntities">
+          <EntitySetMapping Name="Trades">
+            <EntityTypeMapping TypeName="PennyAppModel.Trade">
+              <MappingFragment StoreEntitySet="Trade">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Date1" ColumnName="Date1" />
+                <ScalarProperty Name="Time1" ColumnName="Time1" />
+                <ScalarProperty Name="Open1" ColumnName="Open1" />
+                <ScalarProperty Name="High1" ColumnName="High1" />
+                <ScalarProperty Name="Low1" ColumnName="Low1" />
+                <ScalarProperty Name="Close1" ColumnName="Close1" />
+                <ScalarProperty Name="Vol1" ColumnName="Vol1" />
+                <ScalarProperty Name="OI1" ColumnName="OI1" />
+                <ScalarProperty Name="Signal11" ColumnName="Signal11" />
+                <ScalarProperty Name="Signal21" ColumnName="Signal21" />
+                <ScalarProperty Name="Signal31" ColumnName="Signal31" />
+                <ScalarProperty Name="Entry1" ColumnName="Entry1" />
+                <ScalarProperty Name="Entry_Price1" ColumnName="Entry Price1" />
+                <ScalarProperty Name="Shares1" ColumnName="Shares1" />
+                <ScalarProperty Name="Stop_From_Entry1" ColumnName="Stop From Entry1" />
+                <ScalarProperty Name="Stop_From_TriggerLow1" ColumnName="Stop From TriggerLow1" />
+                <ScalarProperty Name="Trail_Stop_High1" ColumnName="Trail Stop High1" />
+                <ScalarProperty Name="Trail_Stop_Close1" ColumnName="Trail Stop Close1" />
+                <ScalarProperty Name="Target1_Share_Price1" ColumnName="Target1 Share Price1" />
+                <ScalarProperty Name="Target1_Account1" ColumnName="Target1 Account1" />
+                <ScalarProperty Name="Target21" ColumnName="Target21" />
+                <ScalarProperty Name="F221" ColumnName="F221" />
+                <ScalarProperty Name="F231" ColumnName="F231" />
+                <ScalarProperty Name="F241" ColumnName="F241" />
+                <ScalarProperty Name="F251" ColumnName="F251" />
+                <ScalarProperty Name="F261" ColumnName="F261" />
+                <ScalarProperty Name="F271" ColumnName="F271" />
+                <ScalarProperty Name="F281" ColumnName="F281" />
+                <ScalarProperty Name="F291" ColumnName="F291" />
+                <ScalarProperty Name="F301" ColumnName="F301" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Time" ColumnName="Time" />
+                <ScalarProperty Name="Open" ColumnName="Open" />
+                <ScalarProperty Name="High" ColumnName="High" />
+                <ScalarProperty Name="Low" ColumnName="Low" />
+                <ScalarProperty Name="Close" ColumnName="Close" />
+                <ScalarProperty Name="Vol" ColumnName="Vol" />
+                <ScalarProperty Name="OI" ColumnName="OI" />
+                <ScalarProperty Name="Signal1" ColumnName="Signal1" />
+                <ScalarProperty Name="Signal2" ColumnName="Signal2" />
+                <ScalarProperty Name="Signal3" ColumnName="Signal3" />
+                <ScalarProperty Name="Entry" ColumnName="Entry" />
+                <ScalarProperty Name="Entry_Price" ColumnName="Entry Price" />
+                <ScalarProperty Name="Shares" ColumnName="Shares" />
+                <ScalarProperty Name="Stop_From_Entry" ColumnName="Stop From Entry" />
+                <ScalarProperty Name="Stop_From_TriggerLow" ColumnName="Stop From TriggerLow" />
+                <ScalarProperty Name="Trail_Stop_High" ColumnName="Trail Stop High" />
+                <ScalarProperty Name="Trail_Stop_Close" ColumnName="Trail Stop Close" />
+                <ScalarProperty Name="Target1_Share_Price" ColumnName="Target1 Share Price" />
+                <ScalarProperty Name="Target1_Account" ColumnName="Target1 Account" />
+                <ScalarProperty Name="Target2" ColumnName="Target2" />
+                <ScalarProperty Name="F22" ColumnName="F22" />
+                <ScalarProperty Name="F23" ColumnName="F23" />
+                <ScalarProperty Name="F24" ColumnName="F24" />
+                <ScalarProperty Name="F25" ColumnName="F25" />
+                <ScalarProperty Name="F26" ColumnName="F26" />
+                <ScalarProperty Name="F27" ColumnName="F27" />
+                <ScalarProperty Name="F28" ColumnName="F28" />
+                <ScalarProperty Name="F29" ColumnName="F29" />
+                <ScalarProperty Name="F30" ColumnName="F30" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Filters">
+            <EntityTypeMapping TypeName="PennyAppModel.Filter">
+              <MappingFragment StoreEntitySet="Filters">
+                <ScalarProperty Name="Value" ColumnName="Value" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReduceBies">
+            <EntityTypeMapping TypeName="PennyAppModel.ReduceBy">
+              <MappingFragment StoreEntitySet="ReduceBy">
+                <ScalarProperty Name="value" ColumnName="value" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReportPeriods">
+            <EntityTypeMapping TypeName="PennyAppModel.ReportPeriod">
+              <MappingFragment StoreEntitySet="ReportPeriod">
+                <ScalarProperty Name="Report_Period" ColumnName="Report_Period" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Simulations">
+            <EntityTypeMapping TypeName="PennyAppModel.Simulation">
+              <MappingFragment StoreEntitySet="Simulation">
+                <ScalarProperty Name="ReduceBy" ColumnName="ReduceBy" />
+                <ScalarProperty Name="Target" ColumnName="Target" />
+                <ScalarProperty Name="UseAccountDollers" ColumnName="UseAccountDollers" />
+                <ScalarProperty Name="DollerPerPosition" ColumnName="DollerPerPosition" />
+                <ScalarProperty Name="DailyOrWeekly" ColumnName="DailyOrWeekly" />
+                <ScalarProperty Name="Stratgy" ColumnName="Stratgy" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StopOptions">
+            <EntityTypeMapping TypeName="PennyAppModel.StopOption">
+              <MappingFragment StoreEntitySet="StopOption">
+                <ScalarProperty Name="Avg_Volume_Value2" ColumnName="Avg_Volume_Value2" />
+                <ScalarProperty Name="Avg_Volume_Value1" ColumnName="Avg_Volume_Value1" />
+                <ScalarProperty Name="Avg_Volume_Status" ColumnName="Avg_Volume_Status" />
+                <ScalarProperty Name="Avg_Volume_On" ColumnName="Avg_Volume_On" />
+                <ScalarProperty Name="Valume_Status" ColumnName="Valume_Status" />
+                <ScalarProperty Name="Valume_On" ColumnName="Valume_On" />
+                <ScalarProperty Name="Price_ValueTo" ColumnName="Price_ValueTo" />
+                <ScalarProperty Name="Price_ValueFrom" ColumnName="Price_ValueFrom" />
+                <ScalarProperty Name="Price_Status" ColumnName="Price_Status" />
+                <ScalarProperty Name="Price_On" ColumnName="Price_On" />
+                <ScalarProperty Name="Trail_Stop_Value" ColumnName="Trail_Stop_Value" />
+                <ScalarProperty Name="Trail_Stop_Status" ColumnName="Trail_Stop_Status" />
+                <ScalarProperty Name="Trail_Stop" ColumnName="Trail_Stop" />
+                <ScalarProperty Name="Stop_Option_Value" ColumnName="Stop_Option_Value" />
+                <ScalarProperty Name="Stop_Option_Status" ColumnName="Stop_Option_Status" />
+                <ScalarProperty Name="Stop_Option" ColumnName="Stop_Option" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Features">
+            <EntityTypeMapping TypeName="PennyAppModel.Feature">
+              <MappingFragment StoreEntitySet="Feature">
+                <ScalarProperty Name="Lower_BBandTo" ColumnName="Lower_BBandTo" />
+                <ScalarProperty Name="Lower_BBandFrom" ColumnName="Lower_BBandFrom" />
+                <ScalarProperty Name="Lower_BBand" ColumnName="Lower_BBand" />
+                <ScalarProperty Name="Upper_BBandTo" ColumnName="Upper_BBandTo" />
+                <ScalarProperty Name="Upper_BBandFrom" ColumnName="Upper_BBandFrom" />
+                <ScalarProperty Name="Upper_BBand" ColumnName="Upper_BBand" />
+                <ScalarProperty Name="MACD_HistTo" ColumnName="MACD_HistTo" />
+                <ScalarProperty Name="MACD_HistFrom" ColumnName="MACD_HistFrom" />
+                <ScalarProperty Name="MACD_Hist" ColumnName="MACD_Hist" />
+                <ScalarProperty Name="StochasticsTo" ColumnName="StochasticsTo" />
+                <ScalarProperty Name="StochasticsFrom" ColumnName="StochasticsFrom" />
+                <ScalarProperty Name="Stochastics" ColumnName="Stochastics" />
+                <ScalarProperty Name="RSIto" ColumnName="RSIto" />
+                <ScalarProperty Name="RSIfrom" ColumnName="RSIfrom" />
+                <ScalarProperty Name="RSI" ColumnName="RSI" />
+                <ScalarProperty Name="Consecutive_Low_Filter" ColumnName="Consecutive_Low_Filter" />
+                <ScalarProperty Name="Consecutive_Low" ColumnName="Consecutive_Low" />
+                <ScalarProperty Name="Consecutive_High" ColumnName="Consecutive_High" />
+                <ScalarProperty Name="Performance" ColumnName="Performance" />
+                <ScalarProperty Name="Day_High" ColumnName="Day_High" />
+                <ScalarProperty Name="Volume_Filter" ColumnName="Volume_Filter" />
+                <ScalarProperty Name="Volume" ColumnName="Volume" />
+                <ScalarProperty Name="Moving_Avg_Filter" ColumnName="Moving_Avg_Filter" />
+                <ScalarProperty Name="Moving_Avg" ColumnName="Moving_Avg" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
