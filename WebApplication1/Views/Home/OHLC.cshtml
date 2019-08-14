@@ -1,42 +1,32 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-
 <style>
     #chartdiv {
         width: 100%;
         height: 500px;
     }
 </style>
-
 <!-- Resources -->
 @*<script src="https://www.amcharts.com/lib/4/core.js"></script>
     <script src="https://www.amcharts.com/lib/4/charts.js"></script>
     <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>*@
-
 <!-- Chart code -->
 @*<script>
         am4core.ready(function () {
     // Themes begin
     am4core.useTheme(am4themes_animated);
     // Themes end
-
     var chart = am4core.create("chartdiv", am4charts.XYChart);
     chart.paddingRight = 20;
-
     chart.dateFormatter.inputDateFormat = "yyyy-MM-dd";
-
     var dateAxis = chart.xAxes.push(new am4charts.DateAxis());
     dateAxis.renderer.grid.template.location = 2;
-
     var valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
         valueAxis.tooltip.disabled = true;
-
         //debugger;
         //var series2 = chart.series.push(new am4charts.ColumnSeries());
         //series2.dataFields.valueY = "vol";
-
-
         var series = chart.series.push(new am4charts.CandlestickSeries());
     series.dataFields.dateX = "Date";
     series.dataFields.valueY = "Close";
@@ -45,26 +35,21 @@
     series.dataFields.highValueY = "High";
     series.simplifiedProcessing = true;
     series.tooltipText = "Open:${openValueY.value}\nLow:${lowValueY.value}\nHigh:${highValueY.value}\nClose:${valueY.value}";
-
     chart.cursor = new am4charts.XYCursor();
-
     // a separate series for scrollbar
     var lineSeries = chart.series.push(new am4charts.LineSeries());
     lineSeries.dataFields.dateX = "Date";
     lineSeries.dataFields.valueY = "Close";
         // need to set on default state, as initially series is "show"
         lineSeries.defaultState.properties.visible = false;
-
         // hide from legend too (in case there is one)
         lineSeries.hiddenInLegend = true;
     lineSeries.fillOpacity = 0.5;
     lineSeries.strokeOpacity = 0.5;
-
     var scrollbarX = new am4charts.XYChartScrollbar();
         scrollbarX.series.push(lineSeries);
         chart.scrollbarX = scrollbarX;
           var data =  @Html.Raw(Json.Encode(@ViewBag.data));*@
-
 @*console.log(JSON.parse(a));*@
 @*var data = JSON.parse(@ViewBag.data);*@
 @*//chart.scrollbarX = scrollbarX;
@@ -74,14 +59,12 @@
             });
        //  end am4core.ready()
     </script>*@
-
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
 <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
 <script src="https://www.amcharts.com/lib/3/serial.js"></script>
 <script src="https://www.amcharts.com/lib/3/amstock.js"></script>
 <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
 <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
-
 <!-- Chart code -->
 <script>
     //var chartData = [];
@@ -94,43 +77,37 @@
                 "close": v.Close,
                 "high": v.High,
                 "low": v.Low,
-                "volume": v.Vol
+                "volume": v.Vol,
+                "movingavg": v.Moving_Avg,
+                "lower": v.Lower_BBand,
+                "upper":v.Upper_BBand
             });
     })
-
     //generateChartData();
     console.log(chartDatas);
-
     //function generateChartData() {
     //    var firstDate = new Date();
     //    firstDate.setHours(0, 0, 0, 0);
     //    firstDate.setDate(firstDate.getDate() - 2000);
-
     //    for (var i = 0; i < 2000; i++) {
     //        var newDate = new Date(firstDate);
-
     //        newDate.setDate(newDate.getDate() + i);
-
     //        var open = Math.round(Math.random() * (30) + 100);
     //        var close = open + Math.round(Math.random() * (15) - Math.random() * 10);
-
     //        var low;
     //        if (open < close) {
     //            low = open - Math.round(Math.random() * 5);
     //        } else {
     //            low = close - Math.round(Math.random() * 5);
     //        }
-
     //        var high;
     //        if (open < close) {
     //            high = close + Math.round(Math.random() * 5);
     //        } else {
     //            high = open + Math.round(Math.random() * 5);
     //        }
-
     //        var volume = Math.round(Math.random() * (1000 + i)) + 100 + i;
     //        var value = Math.round(Math.random() * (30) + 100);
-
     //        chartData[i] = ({
     //            "date": newDate,
     //            "open": open,
@@ -142,7 +119,6 @@
     //        });
     //    }
     //}
-
     var chart = AmCharts.makeChart("chartdiv", {
         "type": "stock",
         "theme": "none",
@@ -162,24 +138,66 @@
             }, {
                 "fromField": "volume",
                 "toField": "volume"
-            }],
+                }, {
+               "fromField": "movingavg",
+                "toField": "movingavg"
+                }, {
+               "fromField": "lower",
+                "toField": "lower"
+                }, {
+               "fromField": "upper",
+                "toField": "upper"
+                }],
+            "color": "#7f8da9",
+            "title":"OHLC",
             "dataProvider": chartDatas,
             "categoryField": "date"
-        }],
+        },
+            {
+                "fieldMappings": [{
+                    "formField": "movingavg",
+                    "toField":"movingavg"
+                }],
+                "color": "yellow",
+                "dataProvider": chartDatas,
+                "compared": true,
+                "title": "moving_avg",
+                "categoryField": "date",
+            },
+                {
+            "fieldMappings": [ {
+               "fromField": "upper",
+                "toField": "upper"
+                }],
+                "color": "green",
+                "dataProvider": chartDatas,
+                "compared": true,
+                "title": "Upper_BBand",
+                "categoryField":"date"
 
+            },
+              {
+            "fieldMappings": [ {
+               "fromField": "lower",
+                "toField": "lower"
+                }],
+                "color": "red",
+                "dataProvider": chartDatas,
+                "compared": true,
+                "title": "Lower_BBand",
+                "categoryField":"date"
 
+            }],
         "panels": [{
-            "showCategoryAxis": true,
+            "showCategoryAxis": false,
             "percentHeight": 80,
             "valueAxes": [{
                 "id": "v1",
                 "dashLength": 2
             }],
-
             "categoryAxis": {
                 "dashLength": 2
             },
-
             "stockGraphs": [{
                 "type": "candlestick",
                 "id": "g1",
@@ -196,17 +214,40 @@
                 "fillAlphas": 2,
                 "useDataSetColors": true,
                 "comparable": true,
-                "compareField": "value",
+                "compareField": "lower",
                 "showBalloon": true,
                 "proCandlesticks": true
-            } ],
-
+            },
+                {
+                "lineColor": "#7f8da9",
+                "fillColors": "#7f8da9",
+                "negativeLineColor": "#db4c3c",
+                "negativeFillColors": "#db4c3c",
+                "fillAlphas": 2,
+                "useDataSetColors": true,
+                "comparable": true,
+                "compareField": "upper",
+                   "showBalloon": true,
+                "proCandlesticks": true
+                },
+                {
+                "lineColor": "#7f8da9",
+                "fillColors": "#7f8da9",
+                "negativeLineColor": "#db4c3c",
+                "negativeFillColors": "#db4c3c",
+                "fillAlphas": 2,
+                "useDataSetColors": true,
+                "comparable": true,
+                "compareField": "movingavg",
+                   "showBalloon": true,
+                "proCandlesticks": true
+            }
+            ],
             "stockLegend": {
                 "valueTextRegular": undefined,
-                "periodValueTextComparing": "[[percents.value.close]]%"
+                "periodValueTextComparing": "[[percents.value.close]]"
             }
         },
-
         {
             "title": "Volume",
             "percentHeight": 40,
@@ -215,11 +256,9 @@
             "valueAxes": [{
                 "dashLength": 5
             }],
-
             "categoryAxis": {
                 "dashLength": 5
             },
-
             "stockGraphs": [{
                 "valueField": "volume",
                 "type": "column",
@@ -235,18 +274,15 @@
             }
         }
         ],
-
         "chartScrollbarSettings": {
             "graph": "g1",
             "graphType": "line",
             "usePeriod": "WW"
         },
-
         "chartCursorSettings": {
             "valueLineBalloonEnabled": true,
             "valueLineEnabled": true
         },
-
         "periodSelector": {
             "position": "bottom",
             "periods": [{
@@ -275,8 +311,6 @@
         }
     });
 </script>
-
-
 @if (ViewBag.tickername != null)
 {
     @Html.Label((string)ViewBag.tickername)

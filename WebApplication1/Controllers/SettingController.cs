@@ -144,67 +144,44 @@ namespace PennyApp.Controllers
             return View(model);
         }
 
-        public Object UpdateMov_avg(double sum,int j)
+        public Object UpperBollinger(double bollinger, double lowerbollinger, int t)
         {
-            var k = j+1;
+            var k = t + 1;
             var record = db.Trades.Where(x => x.Id == k).FirstOrDefault();
-            if(record != null)
+            if (record != null)
             {
-                //record.Moving_Avg = Convert.ToDouble(sum);
-                var rec = db.Trades.Where(y => y.Id == k ).FirstOrDefault();
-                rec.Moving_Avg = sum;
+                //var uboll = db.Trades.Where(y => y.Id == t).FirstOrDefault();
+                record.Lower_BBand = lowerbollinger;
+                db.Entry(record).State = System.Data.Entity.EntityState.Modified;
+                record.Upper_BBand = bollinger;
+                // db.Trades.Attach(record);
+                db.Entry(record).State = System.Data.Entity.EntityState.Modified;
                 db.SaveChanges();
-
             }
             return (record);
-        } 
+        }
+        public Object UpdateMov_avg(double sum, int j)
+        {
+            var k = j + 1;
+            var record1 = db.Trades.Where(x => x.Id == k).FirstOrDefault();
+            if (record1 != null)
+            {
+                //record.Moving_Avg = Convert.ToDouble(sum);
+                var rec = db.Trades.Where(y => y.Id == k).FirstOrDefault();
+                rec.Moving_Avg = sum;
+                db.SaveChanges();
+            }
+            return (record1);
+        }
         [HttpPost]
         public ActionResult Feature(FeatureViewModel model)
         {
-            var clolist = db.Trades.Select(x => x.Close).ToArray();
-            var rsi = db.Features.Select(x => x.RSIfrom).ToArray();
-            var stock = db.Features.Select(x => x.StochasticsFrom).ToArray();
-            var MACH = db.Features.Select(x => x.MACD_HistFrom).ToArray();
-            var upper_band = db.Features.Select(x => x.Upper_BBandFrom).ToArray();
-            var lower_band = db.Features.Select(x => x.Lower_BBandFrom).ToArray();
-            
-            var list = db.Features.Select(x => x.Moving_Avg_Day_1).FirstOrDefault();
-            int j = (int)list;
-            var record = db.Trades.Where(x => x.Id == j).FirstOrDefault();
-            Trade trade = new Trade();
-
-            decimal sum = 0;
-
-            for (var i = 0; i < j; i++)
-            {
-                sum = 0;
-                for (var k = i; k < j; k++)
-                {
-                    sum = sum + Convert.ToDecimal(clolist[k]);
-                }
-
-                //sum = sum + Convert.ToDecimal(clolist[i]);
-                sum = sum / j;
-                for(int l = 0; l < j; l++)
-                {
-                     var upper = Convert.ToDecimal(clolist[l]) - sum;
-                }
-
-                trade.Moving_Avg = Convert.ToDouble(sum);
-                record.Moving_Avg = Convert.ToDouble(sum);
-                UpdateMov_avg(Convert.ToDouble(sum), j+i);
-
-            }
-
-            sum = (sum / j);
-            Console.WriteLine(clolist[0]);
-
 
             var data = db.Features.FirstOrDefault();
             var filter = db.Filters.ToList();
             List<ValueModel> values = new List<ValueModel>();
 
-            
+
 
 
             foreach (var fil in filter)
@@ -214,7 +191,7 @@ namespace PennyApp.Controllers
             }
             model.Moving_Avg_Value = values;
             model.Volume_Filter_Value = values;
-           // model.Day_High_Value = values;
+            // model.Day_High_Value = values;
             model.Performance_Value = values;
             model.RSI_Value = values;
             model.Stochastics_Value = values;
@@ -231,11 +208,11 @@ namespace PennyApp.Controllers
                 data.Performance_value = model.Performance_Price_Value;
                 data.Volume = model.Volume == true ? 1 : 0;
                 data.Volume_Filter = model.Volume_Filter;
-              //  data.Day_High = model.Day_High == true ? 1 : 0;
+                //  data.Day_High = model.Day_High == true ? 1 : 0;
                 data.Performance = model.Performance == true ? 1 : 0;
                 data.Performance_Filter = model.Performance_Filter;
                 data.Consecutive_High = model.Consecutive_High == true ? 1 : 0;
-             //   data.Day_High_Filter = model.Day_High_Filter;
+                //   data.Day_High_Filter = model.Day_High_Filter;
                 data.Consecutive_Low = model.Consecutive_Low == true ? 1 : 0;
                 data.Consecutive_Low_Filter = model.Consecutive_Low_Filter;
                 data.RSI = model.RSI == true ? 1 : 0;
@@ -260,50 +237,112 @@ namespace PennyApp.Controllers
                 data.Lower_BBandFrom = model.Lower_BBandFrom;
                 data.Lower_BBandTo = model.Lower_BBandTo;
                 db.SaveChanges();
+                Bollingerfun();
                 return View(model);
             }
             else
-            { 
-            Feature feature = new Feature();
-            feature.Moving_Avg = model.Moving_Avg == true ? 1 : 0;
-            feature.Moving_Avg_Filter = model.Moving_Avg_Filter;
-            feature.Moving_Avg_Day_1 = model.Moving_Avg_Day1;
-            feature.Moving_Avg_Day_2 = model.Moving_Avg_Day2;
-            feature.Volume = model.Volume == true ? 1 : 0;
-            feature.Volume_Filter = model.Volume_Filter;
-         //   feature.Day_High = model.Day_High == true ? 1 : 0;
-            feature.Performance = model.Performance == true ? 1 : 0;
-            feature.Performance_Filter = model.Performance_Filter;
-            feature.Consecutive_High = model.Consecutive_High == true ? 1 : 0;
-         //   feature.Day_High_Filter = model.Day_High_Filter;
-            feature.Consecutive_Low = model.Consecutive_Low == true ? 1 : 0;
-            feature.Consecutive_Low_Filter = model.Consecutive_Low_Filter;
-            feature.RSI = model.RSI == true ? 1 : 0;
-            feature.RSI_Filter = model.RSI_Filter;
-            feature.RSIfrom = model.RSIfrom;
-            feature.RSIto = model.RSIto;
-            feature.Stochastics = model.Stochastics == true ? 1 : 0;
-            feature.Stochastics_Filter = model.Stochastics_Filter;
-            feature.StochasticsFrom = model.StochasticsFrom;
-            feature.StochasticsTo = model.StochasticsTo;
-            feature.MACD_Hist = model.MACD_Hist == true ? 1 : 0;
-            feature.MACD_Hist_Filter = model.MACD_Hist_Filter;
-            feature.MACD_HistFrom = model.MACD_HistFrom;
-            feature.MACD_HistFrom = model.MACD_HistFrom;
-            feature.MACD_HistTo = model.MACD_HistTo;
-            feature.Upper_BBand = model.Upper_BBand == true ? 1 : 0;
-            feature.Upper_BBand_Filter = model.Upper_BBand_Filter;
-            feature.Upper_BBandFrom = model.Upper_BBandFrom;
-            feature.Upper_BBandTo = model.Upper_BBandTo;
-            feature.Lower_BBand = model.Lower_BBand == true ? 1 : 0;
-            feature.Lower_BBand_Filter = model.Lower_BBand_Filter;
-            feature.Lower_BBandFrom = model.Lower_BBandFrom;
-            feature.Lower_BBandTo = model.Lower_BBandTo;
-            db.Features.Add(feature);
-            db.SaveChanges();
-            return View(model);
+            {
+                Feature feature = new Feature();
+                feature.Moving_Avg = model.Moving_Avg == true ? 1 : 0;
+                feature.Moving_Avg_Filter = model.Moving_Avg_Filter;
+                feature.Moving_Avg_Day_1 = model.Moving_Avg_Day1;
+                feature.Moving_Avg_Day_2 = model.Moving_Avg_Day2;
+                feature.Volume = model.Volume == true ? 1 : 0;
+                feature.Volume_Filter = model.Volume_Filter;
+                //   feature.Day_High = model.Day_High == true ? 1 : 0;
+                feature.Performance = model.Performance == true ? 1 : 0;
+                feature.Performance_Filter = model.Performance_Filter;
+                feature.Consecutive_High = model.Consecutive_High == true ? 1 : 0;
+                //   feature.Day_High_Filter = model.Day_High_Filter;
+                feature.Consecutive_Low = model.Consecutive_Low == true ? 1 : 0;
+                feature.Consecutive_Low_Filter = model.Consecutive_Low_Filter;
+                feature.RSI = model.RSI == true ? 1 : 0;
+                feature.RSI_Filter = model.RSI_Filter;
+                feature.RSIfrom = model.RSIfrom;
+                feature.RSIto = model.RSIto;
+                feature.Stochastics = model.Stochastics == true ? 1 : 0;
+                feature.Stochastics_Filter = model.Stochastics_Filter;
+                feature.StochasticsFrom = model.StochasticsFrom;
+                feature.StochasticsTo = model.StochasticsTo;
+                feature.MACD_Hist = model.MACD_Hist == true ? 1 : 0;
+                feature.MACD_Hist_Filter = model.MACD_Hist_Filter;
+                feature.MACD_HistFrom = model.MACD_HistFrom;
+                feature.MACD_HistFrom = model.MACD_HistFrom;
+                feature.MACD_HistTo = model.MACD_HistTo;
+                feature.Upper_BBand = model.Upper_BBand == true ? 1 : 0;
+                feature.Upper_BBand_Filter = model.Upper_BBand_Filter;
+                feature.Upper_BBandFrom = model.Upper_BBandFrom;
+                feature.Upper_BBandTo = model.Upper_BBandTo;
+                feature.Lower_BBand = model.Lower_BBand == true ? 1 : 0;
+                feature.Lower_BBand_Filter = model.Lower_BBand_Filter;
+                feature.Lower_BBandFrom = model.Lower_BBandFrom;
+                feature.Lower_BBandTo = model.Lower_BBandTo;
+                db.Features.Add(feature);
+                db.SaveChanges();
+                Bollingerfun();
+                return View(model);
             }
         }
+            public void Bollingerfun()
+            {
+                var rsi = db.Features.Select(d => d.RSIfrom).FirstOrDefault();
+                var y = db.Trades.Select(x => x.Ticker).ToArray();
+                var clolist = db.Trades.Select(x => x.Close).ToArray();
+                //var rsi = db.Features.Select(x => x.RSIfrom).ToArray();
+                var stock = db.Features.Select(x => x.StochasticsFrom).ToArray();
+                var MACH = db.Features.Select(x => x.MACD_HistFrom).ToArray();
+                var upper_band = db.Features.Select(x => x.Upper_BBandFrom).FirstOrDefault();
+                var lower_band = db.Features.Select(x => x.Lower_BBandFrom).ToArray();
+                int M = (int)upper_band;
+                var list = db.Features.Select(x => x.Moving_Avg_Day_1).FirstOrDefault();
+                int j = (int)list;
+                var record = db.Trades.Where(x => x.Id == j).FirstOrDefault();
+                Trade trade = new Trade();
+                decimal lBoll = 0;
+                decimal sum = 0;
+                decimal upper = 0;
+                for (var i = 0; i < j; i++)
+                {
+                    sum = 0;
+                    for (var k = i; k < j; k++)
+                    {
+                        sum = sum + Convert.ToDecimal(clolist[k]);
+                    }
+                    //sum = sum + Convert.ToDecimal(clolist[i]);
+                    sum = sum / j;
+                    trade.Moving_Avg = Convert.ToDouble(sum);
+                    record.Moving_Avg = Convert.ToDouble(sum);
+                    UpdateMov_avg(Convert.ToDouble(sum), i);  ////--->j + i
+                }
+                //-------------------//-----------------UpperBollinger---------//
+                for (var i = 0; i < M; i++)
+                {
+                    lBoll = 0;
+                    for (var k = i; k < M; k++)
+                    {
+                        lBoll = lBoll + Convert.ToDecimal(clolist[k]);
+                    }
+                    //sum = sum + Convert.ToDecimal(clolist[i]);
+                    lBoll = lBoll / M;
+                    for (int l = 0; l < j; l++)
+                    {
+                        upper = 0;
+                        decimal srt = Convert.ToDecimal(clolist[l]) - lBoll;
+                        upper = upper + (srt * srt);
+                        // lBoll = lBoll - (srt * srt);
+                    }
+                    upper = upper / j;
+                    upper = Convert.ToInt64(upper);
+                    //var res = 0;
+                    var res = Math.Sqrt(Convert.ToInt64(upper));
+                    res = 2 * res;
+                    res = Convert.ToDouble(sum) + res;
+                    var low = Math.Sqrt(Convert.ToInt64(upper));
+                    low = 2 * low;
+                    low = Convert.ToDouble(sum) - low;
+                    UpperBollinger(res, low, i);
+                }
+            }
 
 
         [HttpGet]
@@ -345,85 +384,105 @@ namespace PennyApp.Controllers
                 {
                     case 1:
                         {
-                            ticker.Select(x => x.Ext1 = Convert.ToInt32(target[0]));
+                            ticker.ForEach(x => x.Ext1 = Convert.ToInt32(target[0]));
                             break;
                         }
                     case 2:
                         {
-                            ticker.Select(x => x.Ext1 = Convert.ToInt32(target[0]));
-                            ticker.Select(x => x.Ext2 = Convert.ToInt32(target[1]));
+                            ticker.ForEach(x => {
+                               x.Ext1 = Convert.ToInt32(target[0]);
+                               x.Ext2 = Convert.ToInt32(target[1]);
+                            });
                             break;
                         }
                     case 3:
                         {
-                            ticker.Select(x => x.Ext1 = Convert.ToInt32(target[0]));
-                            ticker.Select(x => x.Ext2 = Convert.ToInt32(target[1]));
-                            ticker.Select(x => x.Ext3 = Convert.ToInt32(target[2]));
-
+                            ticker.ForEach(x=> {
+                                x.Ext1 = Convert.ToInt32(target[0]);
+                                x.Ext2 = Convert.ToInt32(target[1]);
+                                x.Ext3 = Convert.ToInt32(target[2]);
+                                });
                             break;
                         }
                     case 4:
                         {
-                            ticker.Select(x => x.Ext1 = Convert.ToInt32(target[0]));
-                            ticker.Select(x => x.Ext2 = Convert.ToInt32(target[1]));
-                            ticker.Select(x => x.Ext3 = Convert.ToInt32(target[2]));
-                            ticker.Select(x => x.Ext4 = Convert.ToInt32(target[3]));
+                            ticker.ForEach(x =>
+                            {
+                                 x.Ext1 = Convert.ToInt32(target[0]);
+                                 x.Ext2 = Convert.ToInt32(target[1]);
+                                 x.Ext3 = Convert.ToInt32(target[2]);
+                                 x.Ext4 = Convert.ToInt32(target[3]);
+                            });
                             break;
                         }
                     case 5:
                         {
-                            ticker.Select(x => x.Ext1 = Convert.ToInt32(target[0]));
-                            ticker.Select(x => x.Ext2 = Convert.ToInt32(target[1]));
-                            ticker.Select(x => x.Ext3 = Convert.ToInt32(target[2]));
-                            ticker.Select(x => x.Ext4 = Convert.ToInt32(target[3]));
-                            ticker.Select(x => x.Ext5 = Convert.ToInt32(target[4]));
-
+                            ticker.ForEach(x =>
+                            {
+                                 x.Ext1 = Convert.ToInt32(target[0]);
+                                 x.Ext2 = Convert.ToInt32(target[1]);
+                                 x.Ext3 = Convert.ToInt32(target[2]);
+                                 x.Ext4 = Convert.ToInt32(target[3]);
+                                 x.Ext5 = Convert.ToInt32(target[4]);
+                            });
                             break;
                         }
                     case 6:
                         {
-                            ticker.Select(x => x.Ext1 = Convert.ToInt32(target[0]));
-                            ticker.Select(x => x.Ext2 = Convert.ToInt32(target[1]));
-                            ticker.Select(x => x.Ext3 = Convert.ToInt32(target[2]));
-                            ticker.Select(x => x.Ext4 = Convert.ToInt32(target[3]));
-                            ticker.Select(x => x.Ext5 = Convert.ToInt32(target[4]));
-                            ticker.Select(x => x.Ext6 = Convert.ToInt32(target[5]));
+                            ticker.ForEach(x =>
+                            {
+                                 x.Ext1 = Convert.ToInt32(target[0]);
+                                 x.Ext2 = Convert.ToInt32(target[1]);
+                                 x.Ext3 = Convert.ToInt32(target[2]);
+                                 x.Ext4 = Convert.ToInt32(target[3]);
+                                 x.Ext5 = Convert.ToInt32(target[4]);
+                                 x.Ext6 = Convert.ToInt32(target[5]);
+                            }):
                             break;
                         }
                     case 7:
                         {
-                            ticker.Select(x => x.Ext1 = Convert.ToInt32(target[0]));
-                            ticker.Select(x => x.Ext2 = Convert.ToInt32(target[1]));
-                            ticker.Select(x => x.Ext3 = Convert.ToInt32(target[2]));
-                            ticker.Select(x => x.Ext4 = Convert.ToInt32(target[3]));
-                            ticker.Select(x => x.Ext5 = Convert.ToInt32(target[4]));
-                            ticker.Select(x => x.Ext6 = Convert.ToInt32(target[5]));
-                            ticker.Select(x => x.Ext7 = Convert.ToInt32(target[6]));
+                            ticker.ForEach(x =>
+                            {
+                                 x.Ext1 = Convert.ToInt32(target[0]);
+                                 x.Ext2 = Convert.ToInt32(target[1]);
+                                 x.Ext3 = Convert.ToInt32(target[2]);
+                                 x.Ext4 = Convert.ToInt32(target[3]);
+                                 x.Ext5 = Convert.ToInt32(target[4]);
+                                 x.Ext6 = Convert.ToInt32(target[5]);
+                                 x.Ext7 = Convert.ToInt32(target[6]);
+                            });
                             break;
                         }
                     case 8:
                         {
-                            ticker.Select(x => x.Ext1 = Convert.ToInt32(target[0]));
-                            ticker.Select(x => x.Ext2 = Convert.ToInt32(target[1]));
-                            ticker.Select(x => x.Ext3 = Convert.ToInt32(target[2]));
-                            ticker.Select(x => x.Ext4 = Convert.ToInt32(target[3]));
-                            ticker.Select(x => x.Ext5 = Convert.ToInt32(target[4]));
-                            ticker.Select(x => x.Ext6 = Convert.ToInt32(target[5]));
-                            ticker.Select(x => x.Ext7 = Convert.ToInt32(target[6]));
-                            ticker.Select(x => x.Ext8 = Convert.ToInt32(target[7]));
+                            ticker.ForEach(x =>
+                            {
+                                 x.Ext1 = Convert.ToInt32(target[0]);
+                                 x.Ext2 = Convert.ToInt32(target[1]);
+                                 x.Ext3 = Convert.ToInt32(target[2]);
+                                 x.Ext4 = Convert.ToInt32(target[3]);
+                                 x.Ext5 = Convert.ToInt32(target[4]);
+                                 x.Ext6 = Convert.ToInt32(target[5]);
+                                 x.Ext7 = Convert.ToInt32(target[6]);
+                                 x.Ext8 = Convert.ToInt32(target[7]);
+                            });
                             break;
                         }
                     case 9:
                         {
-                            ticker.Select(x => x.Ext1 = Convert.ToInt32(target[0]));
-                            ticker.Select(x => x.Ext2 = Convert.ToInt32(target[1]));
-                            ticker.Select(x => x.Ext3 = Convert.ToInt32(target[2]));
-                            ticker.Select(x => x.Ext4 = Convert.ToInt32(target[3]));
-                            ticker.Select(x => x.Ext5 = Convert.ToInt32(target[4]));
-                            ticker.Select(x => x.Ext6 = Convert.ToInt32(target[5]));
-                            ticker.Select(x => x.Ext7 = Convert.ToInt32(target[6]));
-                            ticker.Select(x => x.Ext8 = Convert.ToInt32(target[7]));
-                            ticker.Select(x => x.Ext9 = Convert.ToInt32(target[8]));
+                            ticker.ForEach(x =>
+                            {
+                               x.Ext1 = Convert.ToInt32(target[0]);
+                               x.Ext2 = Convert.ToInt32(target[1]);
+                               x.Ext3 = Convert.ToInt32(target[2]);
+                               x.Ext4 = Convert.ToInt32(target[3]);
+                               x.Ext5 = Convert.ToInt32(target[4]);
+                               x.Ext6 = Convert.ToInt32(target[5]);
+                               x.Ext7 = Convert.ToInt32(target[6]);
+                               x.Ext8 = Convert.ToInt32(target[7]);
+                               x.Ext9 = Convert.ToInt32(target[8]);
+                            });
                             break;
                         }
                     default:
