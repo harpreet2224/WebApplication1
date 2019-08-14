@@ -1,8 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@model PennyApp.Models.FeatureViewModel
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
+    <style type="text/css">
         .switch {
             position: relative;
             display: inline-block;
@@ -24,7 +25,6 @@
             right: 0;
             bottom: 0;
             background-color: #ccc;
-            -webkit-transition: .4s;
             transition: .4s;
         }
 
@@ -36,31 +36,8 @@
                 left: 4px;
                 bottom: 4px;
                 background-color: white;
-                -webkit-transition: .4s;
                 transition: .4s;
             }
-
-        input:checked + .slider {
-            background-color: #2196F3;
-        }
-
-        input:focus + .slider {
-            box-shadow: 0 0 1px #2196F3;
-        }
-
-        input:checked + .slider:before {
-            -webkit-transform: translateX(26px);
-            -ms-transform: translateX(26px);
-            transform: translateX(26px);
-        }
-
-        {
-            font-family: Arial, Helvetica, sans-serif;
-        }
-
-        * {
-            box-sizing: border-box;
-        }
 
         .form-inline {
             display: flex;
@@ -92,233 +69,275 @@
                     background-color: royalblue;
                 }
 
-                .SettingName {
-                    width : 150px;
-                }
+        .SettingName {
+            width: 150px;
+        }
+        /* include generated hidden field here */
+        input[type="checkbox"]:checked + input[type="hidden"] + .slider,
+        input[type="checkbox"]:checked + .slider {
+            background-color: #2196F3;
+        }
+        /* include generated hidden field here */
+        input[type="checkbox"]:focus + input[type="hidden"] + .slider,
+        input[type="checkbox"]:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+        /* include generated hidden field here */
+        input[type="checkbox"]:checked + input[type="hidden"] + .slider:before,
+        input[type="checkbox"]:checked + .slider:before {
+            transform: translateX(26px);
+        }
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+
+            .slider.round:before {
+                border-radius: 50%;
+            }
     </style>
 </head>
 <body>
-    <form class="form-inline">
+    @using (Html.BeginForm("Feature", "Setting", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+    <div class="form-inline">
         <label class="switch">
-            
-            <input type="checkbox">
+            @Html.CheckBoxFor(m => m.Moving_Avg, new { @class = "chk", @id = "moving" })
             <span class="slider"></span>
-
         </label>
         <label class="SettingName">Moving Avg</label>
-        <div class="form-group">
-
-            <select class="form-control" id="sel1">
-                <option>%Stop</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-            </select>
+        <div class="form-group" id="hello">
+            @Html.DropDownListFor(x => Model.Moving_Avg_Filter, new SelectList(Model.Moving_Avg_Value, "Id", "Value"), htmlAttributes: new { @class = "form-control", id = "Country" })
         </div>
-        <input type="email" id="email" name="email">
-
-    </form>
-
-    <form class="form-inline">
+        @Html.TextBoxFor(m => m.Moving_Avg_Day1, new { @class = "form-control", @id = "moving_Avg_Day1" })
         <label class="switch">
-            <input type="checkbox">
+            and
+        </label>
+        @Html.TextBoxFor(m => m.Moving_Avg_Day2, new { @class = "form-control", @id = "moving_Avg_Day2" })
+
+    </div>
+    <div class="form-inline">
+        <label class="switch">
+            @Html.CheckBoxFor(m => m.Volume, new { @class = "chk", @id = "volume" })
             <span class="slider"></span>
         </label>
         <label class="SettingName">Volume</label>
         <div class="form-group">
-
-            <select class="form-control" id="sel1">
-                <option>%High</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-            </select>
+            @Html.DropDownListFor(x => Model.Volume_Filter, new SelectList(Model.Volume_Filter_Value, "Id", "Value"), htmlAttributes: new { @class = "form-control", id = "Country1" })
         </div>
-        <input type="email" id="email" name="email">
-
-    </form>
-
-    <form class="form-inline">
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider"></span>
-        </label>
-        <label class="SettingName">Day High</label>
+       
+    </div>
+        @*<div class="form-inline">
+            <label class="switch">
+                @Html.CheckBoxFor(m => m.Day_High, new { @class = "chk", @id = "day" })
+                <span class="slider"></span>
+            </label>
+            <label class="SettingName">Day High</label>
+            <div class="form-group">
+                @Html.DropDownListFor(x => Model.Day_High_Filter, new SelectList(Model.Day_High_Value, "Id", "Value"), htmlAttributes: new { @class = "form-control", id = "Country2" })
+            </div>
+        </div>*@
+        <div class="form-inline">
+            <label class="switch">
+                @Html.CheckBoxFor(m => m.Performance, new { @class = "chk", @id = "performance" })
+                <span class="slider"></span>
+            </label>
+            <label class="SettingName">Performance</label>
+            <div class="form-group">
+                @Html.DropDownListFor(x => Model.Performance_Filter, new SelectList(Model.Performance_Value, "Id", "Value"), htmlAttributes: new { @class = "form-control", id = "day-High" })
+            </div>
+        
+        </div>
+        <div class="form-inline">
+            <label class="switch">
+                @Html.CheckBoxFor(m => m.Consecutive_High, new { @class = "chk", @id = "consecutivelow" })
+                <span class="slider"></span>
+            </label>
+            <label class="SettingName">Consecutive High</label>
+        </div>
+        <div class="form-inline">
+            <label class="switch">
+                @Html.CheckBoxFor(m => m.Consecutive_Low, new { @class = "chk", @id = "consecutivehigh" })
+                <span class="slider"></span>
+            </label>
+            <label class="SettingName">Consecutive Low</label>
+        </div>
+        <div class="form-inline">
+            <label class="switch">
+                @Html.CheckBoxFor(m => m.RSI, new { @class = "chk", @id = "rsi" })
+                <span class="slider"></span>
+            </label>
+            <label class="SettingName">RSI</label>
+            <div class="form-group">
+                @Html.DropDownListFor(x => Model.RSI_Filter, new SelectList(Model.RSI_Value, "Id", "Value"), htmlAttributes: new { @class = "form-control", id = "RSI" })
+            </div>
+            @Html.TextBoxFor(m => m.RSIfrom, new { @class = "form-control", @id = "rsi-text",@value="20"})
+            <label class="switch">
+                and
+            </label>
+            @Html.TextBoxFor(m => m.RSIto, new { @class = "form-control", @id = "rsi-text1", @value="10"})
+        </div>
+        <div class="form-inline">
+            <label class="switch">
+                @Html.CheckBoxFor(m => m.Stochastics, new { @class = "chk", @id = "stochastics" })
+                <span class="slider"></span>
+            </label>
+            <label class="SettingName">Stochastics</label>
+            <div class="form-group">
+                @Html.DropDownListFor(x => Model.Stochastics_Filter, new SelectList(Model.Stochastics_Value, "Id", "Value"), htmlAttributes: new { @class = "form-control", id = "stoc" })
+            </div>
+                @Html.TextBoxFor(m => m.StochasticsFrom, new { @class = "form-control", @id = "stoc-text" })
+            <label class="switch">
+                and
+            </label>
+            @Html.TextBoxFor(m => m.StochasticsTo, new { @class = "form-control", @id = "stoc-text1" })
+        </div>
+        <div class="form-inline">
+            <label class="switch">
+                @Html.CheckBoxFor(m => m.MACD_Hist, new { @class = "chk", @id = "macd" })
+                <span class="slider"></span>
+            </label>
+            <label class="SettingName">MACD Hist</label>
+            <div class="form-group">
+                @Html.DropDownListFor(x => Model.MACD_Hist_Filter, new SelectList(Model.MACD_Hist_Value, "Id", "Value"), htmlAttributes: new { @class = "form-control", id = "MACD" })
+            </div>
+            @Html.TextBoxFor(m => m.MACD_HistFrom, new { @class = "form-control", @id = "macd-text" })
+            <label class="switch">
+                and
+            </label>
+            @Html.TextBoxFor(m => m.MACD_HistTo, new { @class = "form-control", @id = "macd-text1" })
+        </div>
+        <div class="form-inline">
+            <label class="switch">
+                @Html.CheckBoxFor(m => m.Upper_BBand, new { @class = "chk", @id = "upper" })
+                <span class="slider"></span>
+            </label>
+            <label class="SettingName">Upper BBand</label>
+            <div class="form-group">
+                @Html.DropDownListFor(x => Model.Upper_BBand_Filter, new SelectList(Model.Upper_BBand_Value, "Id", "Value"), htmlAttributes: new { @class = "form-control", id = "UPPER" })
+            </div>
+            @Html.TextBoxFor(m => m.Upper_BBandFrom, new { @class = "form-control", @id = "upper-text" })
+            <label class="switch">
+                and
+            </label>
+            @Html.TextBoxFor(m => m.Upper_BBandTo, new { @class = "form-control", @id = "upper-text1" })
+        </div>
+        <div class="form-inline">
+            <label class="switch">
+                @Html.CheckBoxFor(m => m.Lower_BBand, new { @class = "chk", @id = "lower" })
+                <span class="slider"></span>
+            </label>
+            <label class="SettingName">Lower BBand</label>
+            <div class="form-group">
+                @Html.DropDownListFor(x => Model.Lower_BBand_Filter, new SelectList(Model.Lower_BBand_Value, "Id", "Value"), htmlAttributes: new { @class = "form-control", id = "LOWER" })
+            </div>
+            @Html.TextBoxFor(m => m.Lower_BBandFrom, new { @class = "form-control", @id = "lower-text" })
+            <label class="switch">
+                and
+            </label>
+            @Html.TextBoxFor(m => m.Lower_BBandTo, new { @class = "form-control", @id = "lower-text1" })
+        </div>
         <div class="form-group">
-
-            <select class="form-control" id="sel1">
-                <option>Please Select</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-            </select>
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
         </div>
+    }
+    <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script>
+        //$(document).ready(function () {
+        $(".chk").change(function () {
+            if (document.getElementById("moving").checked == false) {
+                document.getElementById("Country").disabled = true;
+                document.getElementById("moving_Avg_Day1").disabled = true;
+                 document.getElementById("moving_Avg_Day2").disabled = true;
+                
+            }
+            else {
+                document.getElementById("Country").disabled = false;
+                document.getElementById("moving_text").disabled = false;
+                document.getElementById("moving_Avg_Day1").disabled = false;
+                document.getElementById("moving_Avg_Day2").disabled = false;
+            }
 
-    </form>
+            if (document.getElementById("volume").checked == false) {
+                document.getElementById("Country1").disabled = true;
+               
+            }
+            else {
+                document.getElementById("Country1").disabled = false;
+               
+            }
 
-    <form class="form-inline">
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider"></span>
-        </label>
-        <label class="SettingName">Performance</label>
-        <div class="form-group">
+            //if (document.getElementById("day").checked == false) {
+            //    document.getElementById("Country2").disabled = true;
+            //}
+            //else {
+            //    document.getElementById("Country2").disabled = false;
+            //}
 
-            <select class="form-control" id="sel1">
-                <option>Please Select</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-            </select>
-        </div>
-        <input type="email" id="email" name="email">
+            if (document.getElementById("performance").checked == false) {
+              //  document.getElementById("per").disabled = true;
+               document.getElementById("day-High").disabled = true;
+            }
+            else {
+               // document.getElementById("per").disabled = false;
+              document.getElementById("day-High").disabled = false;
+            }
 
-    </form>
+            if (document.getElementById("rsi").checked == false) {
+                document.getElementById("RSI").disabled = true;
+                document.getElementById("rsi-text").disabled = true;
+                document.getElementById("rsi-text1").disabled = true;
+            }
+            else {
+                document.getElementById("RSI").disabled = false;
+                document.getElementById("rsi-text").disabled = false;
+                document.getElementById("rsi-text1").disabled = false;
+            }
 
-    <form class="form-inline">
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider"></span>
-        </label>
-        <label class="SettingName">Consecutive High</label>
-    </form>
-
-    <form class="form-inline">
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider"></span>
-        </label>
-
-    </form>
-
-
-    <form class="form-inline">
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider"></span>
-        </label>
-        <label class="SettingName">Consecutive Low</label>
-        <div class="form-group">
-
-            <select class="form-control" id="sel1">
-                <option>Please Select</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-            </select>
-        </div>
-        <input type="email" id="email" name="email">
-
-
-        <label class="switch">
-            and
-        </label>
-
-        <input type="email" id="email" name="email">
-    </form>
-
-
-    <form class="form-inline">
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider"></span>
-        </label>
-        <label class="SettingName">RSI</label>
-        <div class="form-group">
-
-            <select class="form-control" id="sel1">
-                <option>Please Select</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-            </select>
-        </div>
-        <input type="email" id="email" name="email">
-
-
-        <label class="switch">
-            and
-        </label>
-
-        <input type="email" id="email" name="email">
-    </form>
-
-
-    <form class="form-inline">
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider"></span>
-        </label>
-        <label class="SettingName">Stochastics</label>
-        <div class="form-group">
-
-            <select class="form-control" id="sel1">
-                <option>Please Select</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-            </select>
-        </div>
-        <input type="email" id="email" name="email">
-
-
-        <label class="switch">
-            and
-        </label>
-
-        <input type="email" id="email" name="email">
-    </form>
-
-
-    <form class="form-inline">
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider"></span>
-        </label>
-        <label class="SettingName">MACD Hist</label>
-        <div class="form-group">
-
-            <select class="form-control" id="sel1">
-                <option>Please Select</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-            </select>
-        </div>
-        <input type="email" id="email" name="email">
-
-
-        <label class="switch">
-            and
-        </label>
-
-        <input type="email" id="email" name="email">
-    </form>
-
-
-    <form class="form-inline">
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider"></span>
-        </label>
-        <label class="SettingName">Upper BBand</label>
-        <div class="form-group">
-
-            <select class="form-control" id="sel1">
-                <option>Please Select</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-            </select>
-        </div>
-        <input type="email" id="email" name="email">
-
-
-        <label class="switch">
-            and
-        </label>
-
-        <input type="email" id="email" name="email">
-    </form>
+            if (document.getElementById("stochastics").checked == false) {
+                document.getElementById("stoc").disabled = true;
+                document.getElementById("stoc-text").disabled = true;
+                document.getElementById("stoc-text1").disabled = true;
+            }
+            else {
+                document.getElementById("stoc").disabled = false;
+                document.getElementById("stoc-text").disabled = false;
+                document.getElementById("stoc-text1").disabled = false;
+            }
+            if (document.getElementById("macd").checked == false) {
+                document.getElementById("MACD").disabled = true;
+                document.getElementById("macd-text").disabled = true;
+                document.getElementById("macd-text1").disabled = true;
+            }
+            else {
+                document.getElementById("MACD").disabled = false;
+                document.getElementById("macd-text").disabled = false;
+                document.getElementById("macd-text1").disabled = false;
+            }
+            if (document.getElementById("upper").checked == false) {
+                document.getElementById("UPPER").disabled = true;
+                document.getElementById("upper-text").disabled = true;
+                document.getElementById("upper-text1").disabled = true;
+            }
+            else {
+                document.getElementById("UPPER").disabled = false;
+                document.getElementById("upper-text").disabled = false;
+                document.getElementById("upper-text1").disabled = false;
+            }
+            if (document.getElementById("lower").checked == false) {
+                document.getElementById("LOWER").disabled = true;
+                document.getElementById("lower-text").disabled = true;
+                document.getElementById("lower-text1").disabled = true;
+            }
+            else {
+                document.getElementById("LOWER").disabled = false;
+                document.getElementById("lower-text").disabled = false;
+                document.getElementById("lower-text1").disabled = false;
+            }
+        });
+    </script>
 </body>
 </html>

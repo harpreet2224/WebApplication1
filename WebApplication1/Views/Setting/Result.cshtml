@@ -1,5 +1,7 @@
-﻿<!DOCTYPE html>
-<title>My Example</title>
+﻿@model IEnumerable<PennyApp.Data.Trade>
+@{
+    ViewBag.Title = "Result";
+}
 <style>
     table {
         border-collapse: collapse;
@@ -20,215 +22,86 @@
     }
 </style>
 
+<!DOCTYPE html>
+<title>
+    PennyApp - Result
+</title>
+
+<script src="@Url.Content("~/Scripts/jquery-1.9.1.min.js")"></script>
+<script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
+
 <table>
     <tr>
         <th>Date</th>
         <th>Ticker</th>
         <th>Amount</th>
         <th>Entry Px</th>
-        <th>Exlt1</th>
+        <th>Exit1</th>
+        <th>Exit2</th>
+        <th>Exit3</th>
+        <th>Exit4</th>
+        <th>Exit5</th>
+        <th>Exit6</th>
+        <th>Exit7</th>
+        <th>Exit8</th>
+        <th>Exit9</th>
         <th>Price Now</th>
         <th>Realized</th>
         <th>Unrealized</th>
         <th>Total Gain</th>
-        <th>Amount</th>
         <th>OHLC</th>
         <th>Eq.Curve</th>
     </tr>
-    <tr>
-        <td>2019-04-01</td>
-        <td>AEZS</td>
-        <td>10000</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <th><button type="button" class="btn btn-info" id="Penny">Show</button></th>
-        <th><button type="button" class="btn btn-info" id="Equity">Show</button></th>
-    </tr>
-    <tr>
-        <td>2019-04-01</td>
-        <td>AMD</td>
-        <td>10000</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <th><button type="button" class="btn btn-info" id="Penny1">Show</button></th>
-        <th><button type="button" class="btn btn-info">Show</button></th>
-    </tr>
-    <tr>
-        <td>2019-04-01</td>
-        <td>AMRN</td>
-        <td>10000</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <th><button type="button" class="btn btn-info" id="Penny2">Show</button></th>
-        <th><button type="button" class="btn btn-info">Show</button></th>
-    </tr>
-    <tr>
-        <td>2019-04-01</td>
-        <td>ARQL</td>
-        <td>10000</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <th><button type="button" class="btn btn-info" id="Penny3">Show</button></th>
-        <th><button type="button" class="btn btn-info">Show</button></th>
-    </tr>
-    <tr>
-        <td>2019-04-01</td>
-        <td>ARRY</td>
-        <td>10000</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <th><button type="button" class="btn btn-info" id="Penny4">Show</button></th>
-        <th><button type="button" class="btn btn-info">Show</button></th>
-    </tr>
-    <tr>
-        <td>2019-04-01</td>
-        <td>ARWR</td>
-        <td>10000</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <th><button type="button" class="btn btn-info" id="Penny5">Show</button></th>
-        <th><button type="button" class="btn btn-info">Show</button></th>
-    </tr>
-    <tr>
-        <td>2019-04-01</td>
-        <td>ATAI</td>
-        <td>10000</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <th><button type="button" class="btn btn-info" id="Penny6">Show</button></th>
-        <th><button type="button" class="btn btn-info">Show</button></th>
-    </tr>
-    <tr>
-        <td>2019-04-01</td>
-        <td>BCRX</td>
-        <td>10000</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <th><button type="button" class="btn btn-info" id="Penny7">Show</button></th>
-        <th><button type="button" class="btn btn-info">Show</button></th>
-    </tr>
-    <tr>
-        <td>2019-04-01</td>
-        <td>CDXS</td>
-        <td>10000</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <th><button type="button" class="btn btn-info" id="Penny8">Show</button></th>
-        <th><button type="button" class="btn btn-info">Show</button></th>
-    </tr>
-    <tr>
-        <td>2019-04-01</td>
-        <td>CLWT</td>
-        <td>10000</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <th><button type="button" class="btn btn-info" id="Penny9">Show</button></th>
-        <th><button type="button" class="btn btn-info">Show</button></th>
-    <tr>
-        <td>2019-04-01</td>
-        <td>CODA</td>
-        <td>10000</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <th><button type="button" class="btn btn-info" id="Penny10">Show</button></th>
-        <th><button type="button" class="btn btn-info">Show</button></th>
-    <tr>
-        <td>2019-04-01</td>
-        <td>CPRX</td>
-        <td>10000</td>
-        <td>0</td>
-        <td>1</td>
-        <td>0</td>
-        <td>0</td>
-        <td>1</td>
-        <td>1</td>
-        <td>0</td>
-        <th><button type="button" class="btn btn-info" id="Penny4">Show</button></th>
-        <th><button type="button" class="btn btn-info">Show</button></th>
-
-    </tr>
-   
+    @foreach (var model in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => model.Date)</td>
+            <td>@Html.DisplayFor(modelItem => model.Ticker)</td>
+            <td>@Html.DisplayFor(modelItem => model.Amout)</td>
+            <td>@Html.DisplayFor(modelItem => model.Entry_price)</td>
+            <td>@Html.DisplayFor(modelItem => model.Ext1)</td>
+            <td>@Html.DisplayFor(modelItem => model.Ext2)</td>
+            <td>@Html.DisplayFor(modelItem => model.Ext3)</td>
+            <td>@Html.DisplayFor(modelItem => model.Ext4)</td>
+            <td>@Html.DisplayFor(modelItem => model.Ext5)</td>
+            <td>@Html.DisplayFor(modelItem => model.Ext6)</td>
+            <td>@Html.DisplayFor(modelItem => model.Ext7)</td>
+            <td>@Html.DisplayFor(modelItem => model.Ext8)</td>
+            <td>@Html.DisplayFor(modelItem => model.Ext9)</td>
+            <td>@Html.DisplayFor(modelItem => model.Price_Now)</td>
+            <td>@Html.DisplayFor(modelItem => model.Realized)</td>
+            <td>@Html.DisplayFor(modelItem => model.unrealized)</td>
+            <td>@Html.DisplayFor(modelItem => model.Total_Gain)</td>
+            <th><button type="button" class="btn btn-info" id="Penny" onclick="location.href='@Url.Action("OHLC", "Home", new {ticker= model.Ticker})';return false;">Show</button></th>
+            <th><button type="button" class="btn btn-info" id="Equity" onclick="location.href='@Url.Action("Equitycurve", "Home", new {ticker= model.Ticker})';return false;">Show</button></th>
+        </tr>
+    }
 </table>
 <script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
-<script>
-    $('#Penny').click(function () {
-        document.location = '@Url.Action("Index","Home")';
-    });
-
-        $('#Penny1').click(function () {
-        document.location = '@Url.Action("Index","Home")';
+@*<script>
+        $('#Penny').click(function () {
+            document.location = '@Url.Action("Index","Home")';
         });
 
-        $('#Penny2').click(function () {
-        document.location = '@Url.Action("Index","Home")';
+            $('#Penny1').click(function () {
+            document.location = '@Url.Action("Index","Home")';
+            });
+
+            $('#Penny2').click(function () {
+            document.location = '@Url.Action("Index","Home")';
+            });
+
+            $('#Penny3').click(function () {
+            document.location = '@Url.Action("Index","Home")';
+            });
+
+               $('#Penny4').click(function () {
+            document.location = '@Url.Action("Index","Home")';
+            });
+
+        $('#Equity').click(function () {
+            document.location = '@Url.Action("Equitycurve","Home")'
         });
 
-        $('#Penny3').click(function () {
-        document.location = '@Url.Action("Index","Home")';
-        });
-
-           $('#Penny4').click(function () {
-        document.location = '@Url.Action("Index","Home")';
-        });
-
-    $('#Equity').click(function () {
-        document.location = '@Url.Action("Equitycurve","Home")'
-    });
-
-    var a = document.getElementById("Penny").nodeValue;
-</script>
+        var a = document.getElementById("Penny").nodeValue;
+    </script>*@

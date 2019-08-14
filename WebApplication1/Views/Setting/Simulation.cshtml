@@ -1,15 +1,18 @@
-﻿<!DOCTYPE html>
+﻿@model PennyApp.Models.Simulation_StopOptions
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
 
-         .lab {
+        .lab {
             position: relative;
             display: inline-block;
             width: 250px;
             height: 34px;
         }
+
         .switch {
             position: relative;
             display: inline-block;
@@ -47,7 +50,11 @@
                 transition: .4s;
             }
 
-        input:checked + .slider {
+             .SettingName {
+            width: 150px;
+        }
+
+        /*input:checked + .slider {
             background-color: #2196F3;
         }
 
@@ -59,9 +66,27 @@
             -webkit-transform: translateX(26px);
             -ms-transform: translateX(26px);
             transform: translateX(26px);
+        }*/
+
+        /* include generated hidden field here */
+        input[type="checkbox"]:checked + input[type="hidden"] + .slider,
+        input[type="checkbox"]:checked + .slider {
+            background-color: #2196F3;
         }
 
-        {
+        /* include generated hidden field here */
+        input[type="checkbox"]:focus + input[type="hidden"] + .slider,
+        input[type="checkbox"]:focus + .slider {
+            box-shadow: 0 0 1px #2196F3;
+        }
+
+        /* include generated hidden field here */
+        input[type="checkbox"]:checked + input[type="hidden"] + .slider:before,
+        input[type="checkbox"]:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        * {
             font-family: Arial, Helvetica, sans-serif;
         }
 
@@ -101,72 +126,203 @@
     </style>
 </head>
 <body>
-    <form>
-        <div class="form-inline">
-
-            <label class="lab">
-                Stratgy
-            </label>
-            <input type="text" id="Stratgy" name="Stratgy">
-
-        </div>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.css" />
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/bootstrap.tagsinput/0.4.2/bootstrap-tagsinput.min.js"></script>
 
 
-        <div class="form-inline">
-            <label class="lab">
-                Daily Or Weekly
-            </label>
-            <div class="form-group">
+    @using (Html.BeginForm("Simulation", "Setting", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <br>
+        <a>Portfolio Parameters</a>
+        <br>
+        <div class="border border-primary">
+            <div class="form-inline">
 
-                <select class="form-control" id="sel1">
-                    <option>Daily</option>
-                    <option>Weekly</option>
-                </select>
+                <label class="lab">
+                    Strategy
+                </label>
+
+                @Html.TextBoxFor(x => x.Stratgy, new { required = "Require" })
+            </div>
+
+
+            @*<div class="form-inline">
+                    <label class="lab">
+                        Daily Or Weekly
+                    </label>
+                    <div class="form-group">
+                        @Html.DropDownListFor(m => m.DailyOrWeekly, new SelectList(@ViewBag.RepoPeriod, "Value", "Text"), "--Select Period--", new { required = "Require" })
+                    </div>
+                </div>*@
+
+
+            <div class="form-inline">
+                <label class="lab">
+                    Doller Per Position
+                </label>
+                <div class="form-group">
+                    @Html.TextBoxFor(x => x.DollerPerPosition, new { required = "Require" })
+                </div>
+                <label class="switch">
+                    @Html.CheckBoxFor(x => x.UseAccountDollers)
+                    <span class="slider"></span>
+                </label>
+
+                <label class="lab">
+                    Use Account Dollers
+                </label>
             </div>
         </div>
-
-
-        <div class="form-inline">
-            <label class="lab">
-                Doller Per Position
-            </label>
-            <div class="form-group">
-                <input type="text" id="dollerPerPosition" name="dollerPerPosition">
+        <br><a>Exit Options</a><br>
+        <div class="border border-primary">
+            <div class="form-inline">
+                <label class="lab">
+                    Target %
+                </label>
+                <div class="form-group">
+                    @Html.TextBoxFor(m => m.Target, new { required = "Require" })
+                </div>
             </div>
-            <label class="switch">
-                <input type="checkbox">
-                <span class="slider"></span>
-            </label>
-
-            <label class="lab">
-                Use Account Dollers
-            </label>
-        </div>
 
 
-
-        <div class="form-inline">
-            <label class="lab">
-                Target %
-            </label>
-            <div class="form-group">
-
-                <input type="text" id="targetPerc" name="targetPerc">
+            <div class="form-inline">
+                <label class="lab">
+                    Reduce By
+                </label>
+                <div class="form-group">
+                    @Html.DropDownListFor(m => m.ReduceBy, new SelectList(@ViewBag.ReduceByVal, "Value", "Text"), "--Select Value--", new { required = "Require" })
+                </div>
             </div>
-        </div>
-
-
-        <div class="form-inline">
-            <label class="lab">
-                Reduce By
-            </label>
-            <div class="form-group">
-                <select class="form-control" id="reduceBy">
-                    <option>Share</option>
-                </select>
+        </div><br />
+        <br><a>Stop Option</a><br>
+        <div class="border border-primary">
+            <div class="form-inline">
+                <label class="switch">
+                    @Html.CheckBoxFor(m => m.Stop_Option1, new { @class = "chk", @id = "moving" })
+                    <span class="slider"></span>
+                </label>
+                <label class="SettingName">%Stop</label>
+                <div class="form-group" id="hello">
+                    @Html.DropDownListFor(m => Model.Stop_Option, new SelectList(@ViewBag.stop_option_drop, "id", "value"), htmlAttributes: new { @class = "form-control" ,
+               @id="STOP"})
+                </div>
+                <input type="text" id="movingAvg1" name="MovingAvg">
             </div>
         </div>
+        <br>
+        <a>Filters</a>
+        <br>
+        <div class="border border-primary">
+            <div class="form-inline">
+                <label class="switch">
+                    @Html.CheckBoxFor(m => m.Price_On, new { @class = "chk", @id = "rsi" })
+                    <span class="slider"></span>
+                </label>
+                <label class="SettingName">Price</label>
+                <div class="form-group">
+                    @Html.DropDownListFor(x => Model.Price_ValueTo, new SelectList(@ViewBag.filters, "id", "value"), htmlAttributes: new { @class = "form-control", id = "RSI" })
+                </div>
+                @Html.TextBoxFor(m => m.Price_ValueFrom, new { @class = "form-control", @id = "rsi-text" })
+                <label class="switch">
+                    and
+                </label>
+                @Html.TextBoxFor(m => m.Price_Status, new { @class = "form-control", @id = "rsi-text1" })
+            </div>
+            <div class="form-inline">
+                <label class="switch">
+                    @Html.CheckBoxFor(m => m.Avg_Volume_check, new { @class = "chk", @id = "rsi" })
+                    <span class="slider"></span>
+                </label>
+                <label class="SettingName">Volume</label>
+                <div class="form-group">
+                    @Html.DropDownListFor(x => Model.Avg_Volume_On, new SelectList(@ViewBag.filters, "id", "value"), htmlAttributes: new { @class = "form-control", id = "RSI1" })
+                </div>
+                @Html.TextBoxFor(m => m.Avg_Volume_Value1, new { @class = "form-control", @id = "rsi-text" })
+                <label class="switch">
+                    and
+                </label>
+                @Html.TextBoxFor(m => m.Avg_Volume_Value2, new { @class = "form-control", @id = "rsi-text2" })
+            </div>
+            <div class="form-inline">
+                <label class="switch">
+                    @Html.CheckBoxFor(m => m.Volume_On, new { @class = "chk", @id = "rsi" })
+                    <span class="slider"></span>
+                </label>
+                <label class="SettingName">Avg_Volume</label>
+                <div class="form-group">
+                    @Html.DropDownListFor(x => Model.Volume_Status, new SelectList(@ViewBag.filters, "id", "value"), htmlAttributes: new { @class = "form-control", id = "RSI2" })
+                </div>
+                @Html.TextBoxFor(m => m.Volume_status1, new { @class = "form-control", @id = "rsi-text" })
+                <label class="switch">
+                    and
+                </label>
+                @Html.TextBoxFor(m => m.Volume_status2, new { @class = "form-control", @id = "rsi-text3" })
+            </div>
+        </div>
+        <br />
+        <input type="submit" value="Save" /><br /><br />
 
-    </form>
+        if (ViewBag.Message != null)
+        {
+            <div class="form-inline">
+                @if (ViewBag.Message == true)
+                {
+                    <h3 class="alert-success">
+                        Data has successfuly saved
+                    </h3>
+                }
+                else
+                {
+                    <h3 class="alert-danger">
+                        Data has not successfuly saved
+                    </h3>
+                }
+            </div>
+        }
+    }
 </body>
 </html>
+
+<script>
+    $("#RSI").change(function () {
+
+        var value1 = document.getElementById("RSI").value;
+
+        if (value1 === "3") {
+
+            document.getElementById("rsi-text1").disabled = false;
+        }
+        else {
+            document.getElementById("rsi-text1").disabled = true;
+        }
+    });
+    $("#RSI1").change(function () {
+        if (document.getElementById("RSI1").value === "3") {
+
+            document.getElementById("rsi-text2").disabled = false;
+        }
+        else {
+            document.getElementById("rsi-text2").disabled = true;
+        }
+    });
+    $("#RSI2").change(function () {
+        if (document.getElementById("RSI2").value === "3") {
+
+            document.getElementById("rsi-text3").disabled = false;
+        }
+        else {
+            document.getElementById("rsi-text3").disabled = true;
+        }
+    });
+
+</script>
+
+<script>
+    $('#Target').tagsinput({
+        maxTags: 9
+    });
+
+</script>

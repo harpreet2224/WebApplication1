@@ -11,17 +11,35 @@ namespace WebApplication1.Controllers
     public class HomeController : Controller
     {
         PennyAppEntities db = new PennyAppEntities();
-        public ActionResult Index()
+        public ActionResult Index(string ticker)
         {
            int numberofrecord1 =  4000;
-            string data = JsonConvert.SerializeObject(db.Trades.Select(x => new {
+            if(ticker != null)
+            { 
+            string data = JsonConvert.SerializeObject(db.Trades.Where(z => z.Ticker == ticker).Select(x => new {
                 x.Date,
                 x.Close,
                 x.Open,
                 x.Low,
-                x.High
+                x.High,
+                x.Vol
             }).ToList().Take(numberofrecord1));
-            ViewBag.data = data;
+                ViewBag.data = data;
+                ViewBag.tickername = ticker;
+            }
+            else
+            {
+                string data = JsonConvert.SerializeObject(db.Trades.Select(x => new {
+                    x.Date,
+                    x.Close,
+                    x.Open,
+                    x.Low,
+                    x.High,
+                    x.Vol
+                }).ToList().Take(numberofrecord1));
+                ViewBag.data = data;
+            }
+            
              //string jsonData = JsonConvert.SerializeObject(data);
              // ViewBag.data = jsonData; 
              return View();
@@ -39,16 +57,29 @@ namespace WebApplication1.Controllers
             return View();
         }
 
-        public ActionResult Equitycurve()
+        public ActionResult Equitycurve(string ticker)
         {
             int numberofrecord = 400;
-            string data1 = JsonConvert.SerializeObject(db.Trades.Select(x => new
+            if(ticker != null)
+            { 
+            string data = JsonConvert.SerializeObject(db.Trades.Where(z => z.Ticker == ticker).Select(x => new
             {
                 x.Date,
                 value = x.Close - x.Open,
             }).ToList().Take(numberofrecord)) ;
-            ViewBag.data2 = data1;
-
+            ViewBag.data2 = data;
+                ViewBag.tickername = ticker;
+            }
+            else
+            {
+                string data = JsonConvert.SerializeObject(db.Trades.Select(x => new
+                {
+                    x.Date,
+                    value = x.Close - x.Open,
+                }).ToList().Take(numberofrecord));
+                ViewBag.data2 = data;
+                ViewBag.tickername = ticker;
+            }
             return View();
         }
         public ActionResult Contact()
@@ -57,8 +88,35 @@ namespace WebApplication1.Controllers
 
             return View();
         }
-        public ViewResult OHLC()
+        public ViewResult OHLC(string ticker)
         {
+            int numberofrecord1 = 4000;
+            if (ticker != null)
+            {
+                string data = JsonConvert.SerializeObject(db.Trades.Where(z => z.Ticker == ticker).Select(x => new {
+                    x.Date,
+                    x.Close,
+                    x.Open,
+                    x.Low,
+                    x.High,
+                    x.Vol
+                }).ToList().Take(numberofrecord1));
+                ViewBag.data = data;
+                ViewBag.tickername = ticker;
+            }
+            else
+            {
+                string data = JsonConvert.SerializeObject(db.Trades.Select(x => new {
+                    x.Date,
+                    x.Close,
+                    x.Open,
+                    x.Low,
+                    x.High,
+                    x.Vol
+                }).ToList().Take(numberofrecord1));
+                ViewBag.data = data;
+            }
+
             return View();
         }
     }

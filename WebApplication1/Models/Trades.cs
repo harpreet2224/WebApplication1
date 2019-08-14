@@ -18,8 +18,12 @@ namespace PennyApp.Models
         public float Low { get; set; }
         public float Close { get; set; }
         public double Vol { get; set; }
-
         public int OI { get; set; }
+        public float Moving_Avg { get; set; }
+
+        public float Upper_BBand { get; set; }
+        public float Lower_BBand { get; set; }
+
 
     }
 }

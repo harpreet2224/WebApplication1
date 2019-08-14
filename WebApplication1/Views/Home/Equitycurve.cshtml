@@ -3,9 +3,9 @@
     ViewBag.Title = "Equitycurve";
 }
 
-    <script src="//www.amcharts.com/lib/4/core.js"></script>
-    <script src="//www.amcharts.com/lib/4/charts.js"></script>
-    <script src="//www.amcharts.com/lib/4/maps.js"></script>
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
 
 
 <!DOCTYPE HTML>
@@ -13,8 +13,7 @@
 <head>
     <script>
         window.onload = function () {
-            debugger;
-            
+
                    var data =  @Html.Raw(Json.Encode(@ViewBag.data2));
             var y = JSON.parse(data);
             var i = [];
@@ -51,7 +50,7 @@
                     dockInsidePlotArea: true,
                     itemclick: toogleDataSeries
                 },
-              
+
 
                 data: [{
                     type: "line",
@@ -61,8 +60,8 @@
                     xValueFormatString: "DD MMM, YYYY",
                     color: "#F08080",
                     dataPoints: i
-                  
-                } 
+
+                }
                 ]
             });
             chart.render();
@@ -80,6 +79,10 @@
     </script>
 </head>
 <body>
+    @if (ViewBag.tickername != null)
+    {
+        @Html.Label((string)ViewBag.tickername)
+    }
     <div id="chartContainer" style="height: 300px; width: 100%;"></div>
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </body>

@@ -1,41 +1,63 @@
-﻿<!DOCTYPE html>
+﻿<style>
+    #penny1 {
+        padding: 10px;
+    }
+
+    #penny2 {
+        padding: 10px;
+    }
+
+    #penny3 {
+        padding: 10px;
+    }
+
+    #penny4 {
+        padding: 10px;
+    }
+
+    #penny5 {
+        padding: 10px;
+    }
+
+    #penny6 {
+        padding: 10px;
+    }
+</style>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
+
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Penny App", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Option", "Option", "Setting")</li>
-                    <li>@Html.ActionLink("Feature", "Feature", "Setting")</li>
-                    <li>@Html.ActionLink("Simulation", "Simulation", "Setting")</li>
-                    <li>@Html.ActionLink("Result", "Result", "Setting")</li>
-                    <li>@Html.ActionLink("Equity","Equitycurve","Home")</li>
-                    <li>@Html.ActionLink("Trade","Index","Trades")</li>
-                </ul>
+       
+            <div class="navbar-collapse ">
+                <nav class="navbar navbar-expand-lg navbar-light bg-light">
+
+                    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                        <div class="navbar-nav">
+                            @Html.ActionLink("Penny App", "OHLC", "Home",null, new  { @class = "navbar-brand"})
+                            @Html.ActionLink("Option", "Option", "Setting",null,new { @id="penny1"})
+                            @Html.ActionLink("Simulation", "Simulation", "Setting",null,new { @id="penny2"})
+                            @Html.ActionLink("Feature","Feature","Setting",null,new { @id="penny3"})
+                            @Html.ActionLink("Result", "Result", "Setting",null,new { @id="penny4"})
+                            @Html.ActionLink("Equity", "Equitycurve", "Home",null,new { @id="penny5"})
+                            @Html.ActionLink("Trade", "Trades", "Trades",null,new { @id="penny6"})
+                        </div>
+                    </div>
+                </nav>
             </div>
         </div>
     </div>
     <div class="container body-content">
         @RenderBody()
         <hr />
-        <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+
     </div>
 
     @Scripts.Render("~/bundles/jquery")

@@ -31,6 +31,9 @@ namespace PennyApp.Data
         public virtual DbSet<Simulation> Simulations { get; set; }
         public virtual DbSet<StopOption> StopOptions { get; set; }
         public virtual DbSet<Feature> Features { get; set; }
+        public virtual DbSet<Trail> Trails { get; set; }
         public virtual DbSet<Trade> Trades { get; set; }
+
+        public System.Data.Entity.DbSet<PennyApp.Models.SimulationViewModel> SimulationViewModels { get; set; }
     }
 }

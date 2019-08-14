@@ -5,38 +5,47 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="PennyAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'PennyApp.dbo.Feature' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Feature">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Lower_BBand" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Moving_Avg" Type="int" />
+          <Property Name="Moving_Avg_Day_2" Type="int" />
+          <Property Name="Moving_Avg_Day_1" Type="int" />
           <Property Name="Moving_Avg_Filter" Type="int" />
           <Property Name="Volume" Type="int" />
           <Property Name="Volume_Filter" Type="int" />
           <Property Name="Day_High" Type="int" />
+          <Property Name="Day_High_Filter" Type="int" />
           <Property Name="Performance" Type="int" />
+          <Property Name="Performance_Filter" Type="int" />
           <Property Name="Consecutive_High" Type="int" />
+          <Property Name="Consecutive_High_Filter" Type="int" />
           <Property Name="Consecutive_Low" Type="int" />
           <Property Name="Consecutive_Low_Filter" Type="int" />
           <Property Name="RSI" Type="int" />
+          <Property Name="RSI_Filter" Type="int" />
           <Property Name="RSIfrom" Type="int" />
           <Property Name="RSIto" Type="int" />
           <Property Name="Stochastics" Type="int" />
+          <Property Name="Stochastics_Filter" Type="int" />
           <Property Name="StochasticsFrom" Type="int" />
           <Property Name="StochasticsTo" Type="int" />
           <Property Name="MACD_Hist" Type="int" />
+          <Property Name="MACD_Hist_Filter" Type="int" />
           <Property Name="MACD_HistFrom" Type="int" />
           <Property Name="MACD_HistTo" Type="int" />
           <Property Name="Upper_BBand" Type="int" />
+          <Property Name="Upper_BBand_Filter" Type="int" />
           <Property Name="Upper_BBandFrom" Type="int" />
           <Property Name="Upper_BBandTo" Type="int" />
-          <Property Name="Lower_BBand" Type="int" Nullable="false" />
+          <Property Name="Lower_BBand" Type="int" />
+          <Property Name="Lower_BBand_Filter" Type="int" />
           <Property Name="Lower_BBandFrom" Type="int" />
           <Property Name="Lower_BBandTo" Type="int" />
+          <Property Name="Volume_value" Type="int" />
+          <Property Name="Performance_value" Type="int" />
         </EntityType>
         <EntityType Name="Filters">
           <Key>
@@ -44,6 +53,7 @@ warning 6002: The table/view 'PennyApp.dbo.Feature' does not have a primary key 
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Value" Type="nvarchar" MaxLength="50" />
+          <Property Name="Category" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="ReduceBy">
           <Key>
@@ -99,7 +109,7 @@ warning 6002: The table/view 'PennyApp.dbo.Feature' does not have a primary key 
           </Key>
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Ticker" Type="nvarchar" MaxLength="50" />
-          <Property Name="Date" Type="nvarchar" MaxLength="50" />
+          <Property Name="Date" Type="datetime" />
           <Property Name="Time" Type="varchar" MaxLength="50" />
           <Property Name="Open" Type="float" />
           <Property Name="High" Type="float" />
@@ -107,43 +117,60 @@ warning 6002: The table/view 'PennyApp.dbo.Feature' does not have a primary key 
           <Property Name="Close" Type="float" />
           <Property Name="Vol" Type="int" />
           <Property Name="OI" Type="int" />
+          <Property Name="Amout" Type="int" />
+          <Property Name="Entry price" Type="int" />
+          <Property Name="Ext1" Type="int" />
+          <Property Name="Ext2" Type="int" />
+          <Property Name="Ext3" Type="int" />
+          <Property Name="Ext4" Type="int" />
+          <Property Name="Ext5" Type="int" />
+          <Property Name="Ext6" Type="int" />
+          <Property Name="Ext7" Type="int" />
+          <Property Name="Ext8" Type="int" />
+          <Property Name="Ext9" Type="int" />
+          <Property Name="Price Now" Type="float" />
+          <Property Name="Realized" Type="varchar" MaxLength="50" />
+          <Property Name="unrealized" Type="varchar" MaxLength="50" />
+          <Property Name="Total Gain" Type="float" />
+          <Property Name="Signal1" Type="int" />
+          <Property Name="Signal2" Type="int" />
+          <Property Name="Signal3" Type="int" />
+          <Property Name="Moving_Avg" Type="float" />
+          <Property Name="Upper_BBand" Type="float" />
+          <Property Name="Lower_BBand" Type="float" />
+        </EntityType>
+        <EntityType Name="Trail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TickerName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="RunnigStatus" Type="int" Nullable="false" />
+          <Property Name="Realized" Type="float" />
+          <Property Name="Unrealized" Type="float" />
+          <Property Name="TotalShares" Type="int" />
+          <Property Name="Exit1" Type="int" />
+          <Property Name="Exit2" Type="int" />
+          <Property Name="Exit3" Type="int" />
+          <Property Name="Exit4" Type="int" />
+          <Property Name="Exit5" Type="int" />
+          <Property Name="Exit6" Type="int" />
+          <Property Name="Exit7" Type="int" />
+          <Property Name="Exit8" Type="int" />
+          <Property Name="Exit9" Type="int" />
+          <Property Name="Entry price" Type="int" />
+          <Property Name="Amout" Type="int" />
+          <Property Name="Price Now" Type="float" />
         </EntityType>
         <EntityContainer Name="PennyAppModelStoreContainer">
+          <EntitySet Name="Feature" EntityType="Self.Feature" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Filters" EntityType="Self.Filters" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReduceBy" EntityType="Self.ReduceBy" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReportPeriod" EntityType="Self.ReportPeriod" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Simulation" EntityType="Self.Simulation" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StopOption" EntityType="Self.StopOption" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Trades" EntityType="Self.Trades" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Feature" EntityType="Self.Feature" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Feature].[Id] AS [Id], 
-    [Feature].[Moving_Avg] AS [Moving_Avg], 
-    [Feature].[Moving_Avg_Filter] AS [Moving_Avg_Filter], 
-    [Feature].[Volume] AS [Volume], 
-    [Feature].[Volume_Filter] AS [Volume_Filter], 
-    [Feature].[Day_High] AS [Day_High], 
-    [Feature].[Performance] AS [Performance], 
-    [Feature].[Consecutive_High] AS [Consecutive_High], 
-    [Feature].[Consecutive_Low] AS [Consecutive_Low], 
-    [Feature].[Consecutive_Low_Filter] AS [Consecutive_Low_Filter], 
-    [Feature].[RSI] AS [RSI], 
-    [Feature].[RSIfrom] AS [RSIfrom], 
-    [Feature].[RSIto] AS [RSIto], 
-    [Feature].[Stochastics] AS [Stochastics], 
-    [Feature].[StochasticsFrom] AS [StochasticsFrom], 
-    [Feature].[StochasticsTo] AS [StochasticsTo], 
-    [Feature].[MACD_Hist] AS [MACD_Hist], 
-    [Feature].[MACD_HistFrom] AS [MACD_HistFrom], 
-    [Feature].[MACD_HistTo] AS [MACD_HistTo], 
-    [Feature].[Upper_BBand] AS [Upper_BBand], 
-    [Feature].[Upper_BBandFrom] AS [Upper_BBandFrom], 
-    [Feature].[Upper_BBandTo] AS [Upper_BBandTo], 
-    [Feature].[Lower_BBand] AS [Lower_BBand], 
-    [Feature].[Lower_BBandFrom] AS [Lower_BBandFrom], 
-    [Feature].[Lower_BBandTo] AS [Lower_BBandTo]
-    FROM [dbo].[Feature] AS [Feature]</DefiningQuery>
-          </EntitySet>
+          <EntitySet Name="Trail" EntityType="Self.Trail" Schema="dbo" store:Type="Tables" />
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -156,6 +183,7 @@ warning 6002: The table/view 'PennyApp.dbo.Feature' does not have a primary key 
           <EntitySet Name="Simulations" EntityType="PennyAppModel.Simulation" />
           <EntitySet Name="StopOptions" EntityType="PennyAppModel.StopOption" />
           <EntitySet Name="Features" EntityType="PennyAppModel.Feature" />
+          <EntitySet Name="Trails" EntityType="PennyAppModel.Trail" />
           <EntitySet Name="Trades" EntityType="PennyAppModel.Trade" />
         </EntityContainer>
         <EntityType Name="Filter">
@@ -164,6 +192,7 @@ warning 6002: The table/view 'PennyApp.dbo.Feature' does not have a primary key 
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Value" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Category" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="ReduceBy">
           <Key>
@@ -216,33 +245,67 @@ warning 6002: The table/view 'PennyApp.dbo.Feature' does not have a primary key 
         <EntityType Name="Feature">
           <Key>
             <PropertyRef Name="Id" />
-            <PropertyRef Name="Lower_BBand" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Moving_Avg" Type="Int32" />
           <Property Name="Moving_Avg_Filter" Type="Int32" />
           <Property Name="Volume" Type="Int32" />
           <Property Name="Volume_Filter" Type="Int32" />
           <Property Name="Day_High" Type="Int32" />
+          <Property Name="Day_High_Filter" Type="Int32" />
           <Property Name="Performance" Type="Int32" />
+          <Property Name="Performance_Filter" Type="Int32" />
           <Property Name="Consecutive_High" Type="Int32" />
+          <Property Name="Consecutive_High_Filter" Type="Int32" />
           <Property Name="Consecutive_Low" Type="Int32" />
           <Property Name="Consecutive_Low_Filter" Type="Int32" />
           <Property Name="RSI" Type="Int32" />
+          <Property Name="RSI_Filter" Type="Int32" />
           <Property Name="RSIfrom" Type="Int32" />
           <Property Name="RSIto" Type="Int32" />
           <Property Name="Stochastics" Type="Int32" />
+          <Property Name="Stochastics_Filter" Type="Int32" />
           <Property Name="StochasticsFrom" Type="Int32" />
           <Property Name="StochasticsTo" Type="Int32" />
           <Property Name="MACD_Hist" Type="Int32" />
+          <Property Name="MACD_Hist_Filter" Type="Int32" />
           <Property Name="MACD_HistFrom" Type="Int32" />
           <Property Name="MACD_HistTo" Type="Int32" />
           <Property Name="Upper_BBand" Type="Int32" />
+          <Property Name="Upper_BBand_Filter" Type="Int32" />
           <Property Name="Upper_BBandFrom" Type="Int32" />
           <Property Name="Upper_BBandTo" Type="Int32" />
-          <Property Name="Lower_BBand" Type="Int32" Nullable="false" />
+          <Property Name="Lower_BBand" Type="Int32" />
+          <Property Name="Lower_BBand_Filter" Type="Int32" />
           <Property Name="Lower_BBandFrom" Type="Int32" />
           <Property Name="Lower_BBandTo" Type="Int32" />
+          <Property Name="Volume_value" Type="Int32" />
+          <Property Name="Performance_value" Type="Int32" />
+          <Property Name="Moving_Avg_Day_2" Type="Int32" />
+          <Property Name="Moving_Avg_Day_1" Type="Int32" />
+        </EntityType>
+        <EntityType Name="Trail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TickerName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="RunnigStatus" Type="Int32" Nullable="false" />
+          <Property Name="Realized" Type="Double" />
+          <Property Name="Unrealized" Type="Double" />
+          <Property Name="TotalShares" Type="Int32" />
+          <Property Name="Exit1" Type="Int32" />
+          <Property Name="Exit2" Type="Int32" />
+          <Property Name="Exit3" Type="Int32" />
+          <Property Name="Exit4" Type="Int32" />
+          <Property Name="Exit5" Type="Int32" />
+          <Property Name="Exit6" Type="Int32" />
+          <Property Name="Exit7" Type="Int32" />
+          <Property Name="Exit8" Type="Int32" />
+          <Property Name="Exit9" Type="Int32" />
+          <Property Name="Entry_price" Type="Int32" />
+          <Property Name="Amout" Type="Int32" />
+          <Property Name="Price_Now" Type="Double" />
         </EntityType>
         <EntityType Name="Trade">
           <Key>
@@ -250,7 +313,7 @@ warning 6002: The table/view 'PennyApp.dbo.Feature' does not have a primary key 
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Ticker" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Date" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
           <Property Name="Time" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Open" Type="Double" />
           <Property Name="High" Type="Double" />
@@ -258,6 +321,27 @@ warning 6002: The table/view 'PennyApp.dbo.Feature' does not have a primary key 
           <Property Name="Close" Type="Double" />
           <Property Name="Vol" Type="Int32" />
           <Property Name="OI" Type="Int32" />
+          <Property Name="Amout" Type="Int32" />
+          <Property Name="Entry_price" Type="Int32" />
+          <Property Name="Ext1" Type="Int32" />
+          <Property Name="Ext2" Type="Int32" />
+          <Property Name="Ext3" Type="Int32" />
+          <Property Name="Ext4" Type="Int32" />
+          <Property Name="Ext5" Type="Int32" />
+          <Property Name="Ext6" Type="Int32" />
+          <Property Name="Ext7" Type="Int32" />
+          <Property Name="Ext8" Type="Int32" />
+          <Property Name="Ext9" Type="Int32" />
+          <Property Name="Price_Now" Type="Double" />
+          <Property Name="Realized" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="unrealized" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Total_Gain" Type="Double" />
+          <Property Name="Signal1" Type="Int32" />
+          <Property Name="Signal2" Type="Int32" />
+          <Property Name="Signal3" Type="Int32" />
+          <Property Name="Moving_Avg" Type="Double" />
+          <Property Name="Upper_BBand" Type="Double" />
+          <Property Name="Lower_BBand" Type="Double" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -268,6 +352,7 @@ warning 6002: The table/view 'PennyApp.dbo.Feature' does not have a primary key 
           <EntitySetMapping Name="Filters">
             <EntityTypeMapping TypeName="PennyAppModel.Filter">
               <MappingFragment StoreEntitySet="Filters">
+                <ScalarProperty Name="Category" ColumnName="Category" />
                 <ScalarProperty Name="Value" ColumnName="Value" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -328,25 +413,37 @@ warning 6002: The table/view 'PennyApp.dbo.Feature' does not have a primary key 
           <EntitySetMapping Name="Features">
             <EntityTypeMapping TypeName="PennyAppModel.Feature">
               <MappingFragment StoreEntitySet="Feature">
+                <ScalarProperty Name="Moving_Avg_Day_1" ColumnName="Moving_Avg_Day_1" />
+                <ScalarProperty Name="Moving_Avg_Day_2" ColumnName="Moving_Avg_Day_2" />
+                <ScalarProperty Name="Performance_value" ColumnName="Performance_value" />
+                <ScalarProperty Name="Volume_value" ColumnName="Volume_value" />
                 <ScalarProperty Name="Lower_BBandTo" ColumnName="Lower_BBandTo" />
                 <ScalarProperty Name="Lower_BBandFrom" ColumnName="Lower_BBandFrom" />
+                <ScalarProperty Name="Lower_BBand_Filter" ColumnName="Lower_BBand_Filter" />
                 <ScalarProperty Name="Lower_BBand" ColumnName="Lower_BBand" />
                 <ScalarProperty Name="Upper_BBandTo" ColumnName="Upper_BBandTo" />
                 <ScalarProperty Name="Upper_BBandFrom" ColumnName="Upper_BBandFrom" />
+                <ScalarProperty Name="Upper_BBand_Filter" ColumnName="Upper_BBand_Filter" />
                 <ScalarProperty Name="Upper_BBand" ColumnName="Upper_BBand" />
                 <ScalarProperty Name="MACD_HistTo" ColumnName="MACD_HistTo" />
                 <ScalarProperty Name="MACD_HistFrom" ColumnName="MACD_HistFrom" />
+                <ScalarProperty Name="MACD_Hist_Filter" ColumnName="MACD_Hist_Filter" />
                 <ScalarProperty Name="MACD_Hist" ColumnName="MACD_Hist" />
                 <ScalarProperty Name="StochasticsTo" ColumnName="StochasticsTo" />
                 <ScalarProperty Name="StochasticsFrom" ColumnName="StochasticsFrom" />
+                <ScalarProperty Name="Stochastics_Filter" ColumnName="Stochastics_Filter" />
                 <ScalarProperty Name="Stochastics" ColumnName="Stochastics" />
                 <ScalarProperty Name="RSIto" ColumnName="RSIto" />
                 <ScalarProperty Name="RSIfrom" ColumnName="RSIfrom" />
+                <ScalarProperty Name="RSI_Filter" ColumnName="RSI_Filter" />
                 <ScalarProperty Name="RSI" ColumnName="RSI" />
                 <ScalarProperty Name="Consecutive_Low_Filter" ColumnName="Consecutive_Low_Filter" />
                 <ScalarProperty Name="Consecutive_Low" ColumnName="Consecutive_Low" />
+                <ScalarProperty Name="Consecutive_High_Filter" ColumnName="Consecutive_High_Filter" />
                 <ScalarProperty Name="Consecutive_High" ColumnName="Consecutive_High" />
+                <ScalarProperty Name="Performance_Filter" ColumnName="Performance_Filter" />
                 <ScalarProperty Name="Performance" ColumnName="Performance" />
+                <ScalarProperty Name="Day_High_Filter" ColumnName="Day_High_Filter" />
                 <ScalarProperty Name="Day_High" ColumnName="Day_High" />
                 <ScalarProperty Name="Volume_Filter" ColumnName="Volume_Filter" />
                 <ScalarProperty Name="Volume" ColumnName="Volume" />
@@ -356,9 +453,54 @@ warning 6002: The table/view 'PennyApp.dbo.Feature' does not have a primary key 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Trails">
+            <EntityTypeMapping TypeName="PennyAppModel.Trail">
+              <MappingFragment StoreEntitySet="Trail">
+                <ScalarProperty Name="Price_Now" ColumnName="Price Now" />
+                <ScalarProperty Name="Amout" ColumnName="Amout" />
+                <ScalarProperty Name="Entry_price" ColumnName="Entry price" />
+                <ScalarProperty Name="Exit9" ColumnName="Exit9" />
+                <ScalarProperty Name="Exit8" ColumnName="Exit8" />
+                <ScalarProperty Name="Exit7" ColumnName="Exit7" />
+                <ScalarProperty Name="Exit6" ColumnName="Exit6" />
+                <ScalarProperty Name="Exit5" ColumnName="Exit5" />
+                <ScalarProperty Name="Exit4" ColumnName="Exit4" />
+                <ScalarProperty Name="Exit3" ColumnName="Exit3" />
+                <ScalarProperty Name="Exit2" ColumnName="Exit2" />
+                <ScalarProperty Name="Exit1" ColumnName="Exit1" />
+                <ScalarProperty Name="TotalShares" ColumnName="TotalShares" />
+                <ScalarProperty Name="Unrealized" ColumnName="Unrealized" />
+                <ScalarProperty Name="Realized" ColumnName="Realized" />
+                <ScalarProperty Name="RunnigStatus" ColumnName="RunnigStatus" />
+                <ScalarProperty Name="TickerName" ColumnName="TickerName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Trades">
             <EntityTypeMapping TypeName="PennyAppModel.Trade">
               <MappingFragment StoreEntitySet="Trades">
+                <ScalarProperty Name="Lower_BBand" ColumnName="Lower_BBand" />
+                <ScalarProperty Name="Upper_BBand" ColumnName="Upper_BBand" />
+                <ScalarProperty Name="Moving_Avg" ColumnName="Moving_Avg" />
+                <ScalarProperty Name="Signal3" ColumnName="Signal3" />
+                <ScalarProperty Name="Signal2" ColumnName="Signal2" />
+                <ScalarProperty Name="Signal1" ColumnName="Signal1" />
+                <ScalarProperty Name="Total_Gain" ColumnName="Total Gain" />
+                <ScalarProperty Name="unrealized" ColumnName="unrealized" />
+                <ScalarProperty Name="Realized" ColumnName="Realized" />
+                <ScalarProperty Name="Price_Now" ColumnName="Price Now" />
+                <ScalarProperty Name="Ext9" ColumnName="Ext9" />
+                <ScalarProperty Name="Ext8" ColumnName="Ext8" />
+                <ScalarProperty Name="Ext7" ColumnName="Ext7" />
+                <ScalarProperty Name="Ext6" ColumnName="Ext6" />
+                <ScalarProperty Name="Ext5" ColumnName="Ext5" />
+                <ScalarProperty Name="Ext4" ColumnName="Ext4" />
+                <ScalarProperty Name="Ext3" ColumnName="Ext3" />
+                <ScalarProperty Name="Ext2" ColumnName="Ext2" />
+                <ScalarProperty Name="Ext1" ColumnName="Ext1" />
+                <ScalarProperty Name="Entry_price" ColumnName="Entry price" />
+                <ScalarProperty Name="Amout" ColumnName="Amout" />
                 <ScalarProperty Name="OI" ColumnName="OI" />
                 <ScalarProperty Name="Vol" ColumnName="Vol" />
                 <ScalarProperty Name="Close" ColumnName="Close" />

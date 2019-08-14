@@ -1,8 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@model PennyApp.Models.StopOptionViewModel
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <style>
+    <style type="text/css">
         .switch {
             position: relative;
             display: inline-block;
@@ -24,7 +25,6 @@
             right: 0;
             bottom: 0;
             background-color: #ccc;
-            -webkit-transition: .4s;
             transition: .4s;
         }
 
@@ -36,158 +36,172 @@
                 left: 4px;
                 bottom: 4px;
                 background-color: white;
-                -webkit-transition: .4s;
                 transition: .4s;
             }
 
-        input:checked + .slider {
+        .form-inline {
+            display: flex;
+            flex-flow: row wrap;
+            align-items: center;
+        }
+
+            .form-inline label {
+                margin: 5px 10px 5px 0;
+            }
+
+            .form-inline input {
+                vertical-align: middle;
+                margin: 5px 10px 5px 0;
+                padding: 10px;
+                background-color: #fff;
+                border: 1px solid #ddd;
+            }
+
+            .form-inline button {
+                padding: 10px 20px;
+                background-color: dodgerblue;
+                border: 1px solid #ddd;
+                color: white;
+                cursor: pointer;
+            }
+
+                .form-inline button:hover {
+                    background-color: royalblue;
+                }
+
+        .SettingName {
+            width: 150px;
+        }
+        /* include generated hidden field here */
+        input[type="checkbox"]:checked + input[type="hidden"] + .slider,
+        input[type="checkbox"]:checked + .slider {
             background-color: #2196F3;
         }
-
-        input:focus + .slider {
+        /* include generated hidden field here */
+        input[type="checkbox"]:focus + input[type="hidden"] + .slider,
+        input[type="checkbox"]:focus + .slider {
             box-shadow: 0 0 1px #2196F3;
         }
-
-        input:checked + .slider:before {
-            -webkit-transform: translateX(26px);
-            -ms-transform: translateX(26px);
+        /* include generated hidden field here */
+        input[type="checkbox"]:checked + input[type="hidden"] + .slider:before,
+        input[type="checkbox"]:checked + .slider:before {
             transform: translateX(26px);
         }
-   
- {font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box;}
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
 
-.form-inline {
-  display: flex;
-  flex-flow: row wrap;
-  align-items: center;
-}
-
-.form-inline label {
-  margin: 5px 10px 5px 0;
-}
-
-.form-inline input {
-  vertical-align: middle;
-  margin: 5px 10px 5px 0;
-  padding: 10px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-}
-
-.form-inline button {
-  padding: 10px 20px;
-  background-color: dodgerblue;
-  border: 1px solid #ddd;
-  color: white;
-  cursor: pointer;
-}
-
-.form-inline button:hover {
-  background-color: royalblue;
-}
-
+            .slider.round:before {
+                border-radius: 50%;
+            }
     </style>
 </head>
 <body>
-    <form class="form-inline">
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider"></span>
-        </label>
-        <div class="form-group">
-
-            <select class="form-control" id="sel1">
-                <option>%Stop</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-            </select>
+    @using (Html.BeginForm("option", "Setting", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        <br><a>Stop Option</a><br>
+        <div class="border border-primary">
+            <div class="form-inline">
+                <label class="switch">
+                    @Html.CheckBoxFor(m => m.Stop_Option1, new { @class = "chk", @id = "moving" })
+                    <span class="slider"></span>
+                </label>
+                <label class="SettingName">%Stop</label>
+                <div class="form-group" id="hello">
+                    @Html.DropDownListFor(m => Model.Stop_Option, new SelectList(@ViewBag.stop_option_drop, "id", "value"), htmlAttributes: new { @class = "form-control", id = "Country" })
+                </div>
+                <input type="text" id="movingAvg1" name="MovingAvg">
+            </div>
         </div>
-        <input type="email" id="email" name="email">
-
-    </form>
-
-    <form class="form-inline">
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider"></span>
-        </label>
-        <div class="form-group">
-
-            <select class="form-control" id="sel1">
-                <option>%High</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-            </select>
+        <br>
+        <a>Filters</a>
+        <br>
+        <div class="border border-primary">
+            <div class="form-inline">
+                <label class="switch">
+                    @Html.CheckBoxFor(m => m.Price_On, new { @class = "chk", @id = "rsi" })
+                    <span class="slider"></span>
+                </label>
+                <label class="SettingName">Price</label>
+                <div class="form-group">
+                    @Html.DropDownListFor(x => Model.Price_ValueTo, new SelectList(@ViewBag.filters, "id", "value"), htmlAttributes: new { @class = "form-control", id = "RSI" })
+                </div>
+                @Html.TextBoxFor(m => m.Price_ValueFrom, new { @class = "form-control", @id = "rsi-text" })
+                <label class="switch">
+                    and
+                </label>
+                @Html.TextBoxFor(m => m.Price_Status, new { @class = "form-control", @id = "rsi-text1" })
+            </div>
+            <div class="form-inline">
+                <label class="switch">
+                    @Html.CheckBoxFor(m => m.Avg_Volume_check, new { @class = "chk", @id = "rsi" })
+                    <span class="slider"></span>
+                </label>
+                <label class="SettingName">Volume</label>
+                <div class="form-group">
+                    @Html.DropDownListFor(x => Model.Avg_Volume_On, new SelectList(@ViewBag.filters, "id", "value"), htmlAttributes: new { @class = "form-control", id = "RSI1" })
+                </div>
+                @Html.TextBoxFor(m => m.Avg_Volume_Value1, new { @class = "form-control", @id = "rsi-text" })
+                <label class="switch">
+                    and
+                </label>
+                @Html.TextBoxFor(m => m.Avg_Volume_Value2, new { @class = "form-control", @id = "rsi-text2" })
+            </div>
+            <div class="form-inline">
+                <label class="switch">
+                    @Html.CheckBoxFor(m => m.Volume_On, new { @class = "chk", @id = "rsi" })
+                    <span class="slider"></span>
+                </label>
+                <label class="SettingName">Avg_Volume</label>
+                <div class="form-group">
+                    @Html.DropDownListFor(x => Model.Volume_Status, new SelectList(@ViewBag.filters, "id", "value"), htmlAttributes: new { @class = "form-control", id = "RSI2" })
+                </div>
+                @Html.TextBoxFor(m => m.Volume_status1, new { @class = "form-control", @id = "rsi-text" })
+                <label class="switch">
+                    and
+                </label>
+                @Html.TextBoxFor(m => m.Volume_status2, new { @class = "form-control", @id = "rsi-text3" })
+            </div>
         </div>
-        <input type="email" id="email" name="email">
-
-    </form>
-
-    <form class="form-inline">
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider"></span>
-        </label>
-        <div class="form-group">
-
-            <select class="form-control" id="sel1">
-                <option>Please Select</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-            </select>
-        </div>
-        <input type="email" id="email" name="email">
-        <label class="switch">
-            and
-        </label>
-
-        <input type="email" id="email" name="email">
-    </form>
-
-    <form class="form-inline">
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider"></span>
-        </label>
-        <div class="form-group">
-
-            <select class="form-control" id="sel1">
-                <option>Please Select</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-            </select>
-        </div>
-        <input type="email" id="email" name="email">
-
-    </form>
-
-    <form class="form-inline">
-        <label class="switch">
-            <input type="checkbox">
-            <span class="slider"></span>
-        </label>
-        <div class="form-group">
-
-            <select class="form-control" id="sel1">
-                <option>Please Select</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-            </select>
-        </div>
-        <input type="email" id="email" name="email">
-
-
-        <label class="switch">
-            and
-        </label>
-
-        <input type="email" id="email" name="email">
-    </form>
+        <br />
+        <input type="submit" value="Save" /><br /><br />
+    }
 </body>
 </html>
+<script src="https://code.jquery.com/jquery-3.4.1.js" integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+
+<script>
+    $("#RSI").change(function () {
+
+        var value1 = document.getElementById("RSI").value;
+
+        if (value1 === "3") {
+
+            document.getElementById("rsi-text1").disabled = false;
+        }
+        else {
+            document.getElementById("rsi-text1").disabled = true;
+        }
+    });
+    $("#RSI1").change(function () {
+        if (document.getElementById("RSI1").value === "3") {
+
+            document.getElementById("rsi-text2").disabled = false;
+        }
+        else {
+            document.getElementById("rsi-text2").disabled = true;
+        }
+    });
+    $("#RSI2").change(function () {
+        if (document.getElementById("RSI2").value === "3") {
+
+            document.getElementById("rsi-text3").disabled = false;
+        }
+        else {
+            document.getElementById("rsi-text3").disabled = true;
+        }
+    });
+   
+</script>

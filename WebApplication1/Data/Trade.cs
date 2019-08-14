@@ -16,7 +16,7 @@ namespace PennyApp.Data
     {
         public int Id { get; set; }
         public string Ticker { get; set; }
-        public string Date { get; set; }
+        public Nullable<System.DateTime> Date { get; set; }
         public string Time { get; set; }
         public Nullable<double> Open { get; set; }
         public Nullable<double> High { get; set; }
@@ -24,5 +24,26 @@ namespace PennyApp.Data
         public Nullable<double> Close { get; set; }
         public Nullable<int> Vol { get; set; }
         public Nullable<int> OI { get; set; }
+        public Nullable<int> Amout { get; set; }
+        public Nullable<int> Entry_price { get; set; }
+        public Nullable<int> Ext1 { get; set; }
+        public Nullable<int> Ext2 { get; set; }
+        public Nullable<int> Ext3 { get; set; }
+        public Nullable<int> Ext4 { get; set; }
+        public Nullable<int> Ext5 { get; set; }
+        public Nullable<int> Ext6 { get; set; }
+        public Nullable<int> Ext7 { get; set; }
+        public Nullable<int> Ext8 { get; set; }
+        public Nullable<int> Ext9 { get; set; }
+        public Nullable<double> Price_Now { get; set; }
+        public string Realized { get; set; }
+        public string unrealized { get; set; }
+        public Nullable<double> Total_Gain { get; set; }
+        public Nullable<int> Signal1 { get; set; }
+        public Nullable<int> Signal2 { get; set; }
+        public Nullable<int> Signal3 { get; set; }
+        public Nullable<double> Moving_Avg { get; set; }
+        public Nullable<double> Upper_BBand { get; set; }
+        public Nullable<double> Lower_BBand { get; set; }
     }
 }

@@ -7,7 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using static PennyApp.Models.Trades;
 using System.IO.MemoryMappedFiles;
 using Microsoft.AspNetCore.Http;
 using PennyApp.Models;
@@ -17,10 +16,10 @@ namespace PennyApp.Controllers
 {
     public class TradesController : Controller
     {
-        PennyAppEntities context = new PennyAppEntities();
-        public ActionResult Index(List<IFormFile> files)
+        PennyAppEntities db = new PennyAppEntities();
+        public ActionResult Trades()
         {
-            return View("Trades");
+            return View();
         }
 
         [HttpPost]
@@ -43,41 +42,43 @@ namespace PennyApp.Controllers
                 string extension = Path.GetExtension(file.FileName);
                 file.SaveAs(filePath);
                 string csvData = System.IO.File.ReadAllText(filePath);
-
+                var features = db.Features.FirstOrDefault();
+                int day1 = features.Moving_Avg_Day_1 ?? default(int);
+                int day2 = features.Moving_Avg_Day_2 ?? default(int);
+               
                 foreach (string row in csvData.Split('\n'))
                 {
+                   
                     string[] data = row.Split(',');
                     if (data[0] != "")
                     {
+
                         if (data[0] == "\"Date\"")
                         {
                             continue;
                         }
                         else
                         {
+                            
+                          
                             trade.Ticker = filename1[0];
-                            trade.Date = data[0];
-                            trade.Time = data[1];
+                            trade.Date = Convert.ToDateTime(data[0]);
+                         //   trade.Time = data[1];
                             trade.Open = float.Parse(data[2]);
                             trade.High = float.Parse(data[3]);
                             trade.Low = float.Parse(data[4]);
                             trade.Close = float.Parse(data[5]);
                             trade.Vol = int.Parse(data[6]);
                             trade.OI = int.Parse(data[7]);
+
                             count++;
-
-                            pennyApp1Entities1.Trades.Add(trade);
-                            pennyApp1Entities1.SaveChanges();
-
+                            db.Trades.Add(trade);
+                            db.SaveChanges();
+                            
                         }
-
                     }
 
-
-
                 }
-
-
             }
             return Json(count + " rows inserted");
         }

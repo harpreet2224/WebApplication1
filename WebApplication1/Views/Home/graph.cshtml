@@ -34,7 +34,7 @@ var chart = new CanvasJS.Chart("chartContainer", {
 		content: "Date: {x}<br /><strong>Price:</strong><br />Open: {y[0]}, Close: {y[3]}<br />High: {y[1]}, Low: {y[2]}"
 	},
 	data: [{
-		type: "candlestick",
+		type: "line",
 		yValueFormatString: "$##0.00",
 		dataPoints: dataPoints
 	}]

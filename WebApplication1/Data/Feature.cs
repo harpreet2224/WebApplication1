@@ -20,24 +20,36 @@ namespace PennyApp.Data
         public Nullable<int> Volume { get; set; }
         public Nullable<int> Volume_Filter { get; set; }
         public Nullable<int> Day_High { get; set; }
+        public Nullable<int> Day_High_Filter { get; set; }
         public Nullable<int> Performance { get; set; }
+        public Nullable<int> Performance_Filter { get; set; }
         public Nullable<int> Consecutive_High { get; set; }
+        public Nullable<int> Consecutive_High_Filter { get; set; }
         public Nullable<int> Consecutive_Low { get; set; }
         public Nullable<int> Consecutive_Low_Filter { get; set; }
         public Nullable<int> RSI { get; set; }
+        public Nullable<int> RSI_Filter { get; set; }
         public Nullable<int> RSIfrom { get; set; }
         public Nullable<int> RSIto { get; set; }
         public Nullable<int> Stochastics { get; set; }
+        public Nullable<int> Stochastics_Filter { get; set; }
         public Nullable<int> StochasticsFrom { get; set; }
         public Nullable<int> StochasticsTo { get; set; }
         public Nullable<int> MACD_Hist { get; set; }
+        public Nullable<int> MACD_Hist_Filter { get; set; }
         public Nullable<int> MACD_HistFrom { get; set; }
         public Nullable<int> MACD_HistTo { get; set; }
         public Nullable<int> Upper_BBand { get; set; }
+        public Nullable<int> Upper_BBand_Filter { get; set; }
         public Nullable<int> Upper_BBandFrom { get; set; }
         public Nullable<int> Upper_BBandTo { get; set; }
-        public int Lower_BBand { get; set; }
+        public Nullable<int> Lower_BBand { get; set; }
+        public Nullable<int> Lower_BBand_Filter { get; set; }
         public Nullable<int> Lower_BBandFrom { get; set; }
         public Nullable<int> Lower_BBandTo { get; set; }
+        public Nullable<int> Volume_value { get; set; }
+        public Nullable<int> Performance_value { get; set; }
+        public Nullable<int> Moving_Avg_Day_2 { get; set; }
+        public Nullable<int> Moving_Avg_Day_1 { get; set; }
     }
 }
