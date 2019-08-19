@@ -45,5 +45,8 @@ namespace PennyApp.Data
         public Nullable<double> Moving_Avg { get; set; }
         public Nullable<double> Upper_BBand { get; set; }
         public Nullable<double> Lower_BBand { get; set; }
+        public Nullable<double> RSI { get; set; }
+        public Nullable<double> Stocastics { get; set; }
+        public Nullable<double> MACD_Hist { get; set; }
     }
 }

@@ -138,6 +138,9 @@
           <Property Name="Moving_Avg" Type="float" />
           <Property Name="Upper_BBand" Type="float" />
           <Property Name="Lower_BBand" Type="float" />
+          <Property Name="RSI" Type="float" />
+          <Property Name="Stocastics" Type="float" />
+          <Property Name="MACD Hist" Type="float" />
         </EntityType>
         <EntityType Name="Trail">
           <Key>
@@ -342,6 +345,9 @@
           <Property Name="Moving_Avg" Type="Double" />
           <Property Name="Upper_BBand" Type="Double" />
           <Property Name="Lower_BBand" Type="Double" />
+          <Property Name="RSI" Type="Double" />
+          <Property Name="Stocastics" Type="Double" />
+          <Property Name="MACD_Hist" Type="Double" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -480,6 +486,9 @@
           <EntitySetMapping Name="Trades">
             <EntityTypeMapping TypeName="PennyAppModel.Trade">
               <MappingFragment StoreEntitySet="Trades">
+                <ScalarProperty Name="MACD_Hist" ColumnName="MACD Hist" />
+                <ScalarProperty Name="Stocastics" ColumnName="Stocastics" />
+                <ScalarProperty Name="RSI" ColumnName="RSI" />
                 <ScalarProperty Name="Lower_BBand" ColumnName="Lower_BBand" />
                 <ScalarProperty Name="Upper_BBand" ColumnName="Upper_BBand" />
                 <ScalarProperty Name="Moving_Avg" ColumnName="Moving_Avg" />

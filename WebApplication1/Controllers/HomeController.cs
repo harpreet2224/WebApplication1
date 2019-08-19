@@ -99,7 +99,10 @@ namespace WebApplication1.Controllers
                     x.Open,
                     x.Low,
                     x.High,
-                    x.Vol
+                    x.Vol,
+                    x.Moving_Avg,
+                    x.Upper_BBand,
+                    x.Lower_BBand
                 }).ToList().Take(numberofrecord1));
                 ViewBag.data = data;
                 ViewBag.tickername = ticker;
@@ -112,7 +115,10 @@ namespace WebApplication1.Controllers
                     x.Open,
                     x.Low,
                     x.High,
-                    x.Vol
+                    x.Vol,
+                    x.Moving_Avg,
+                    x.Upper_BBand,
+                    x.Lower_BBand
                 }).ToList().Take(numberofrecord1));
                 ViewBag.data = data;
             }

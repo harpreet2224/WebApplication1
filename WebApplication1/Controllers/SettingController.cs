@@ -7,6 +7,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
 
 namespace PennyApp.Controllers
 {
@@ -142,6 +143,18 @@ namespace PennyApp.Controllers
             }
            
             return View(model);
+        }
+        public Object Rsiupadte(Nullable<double> rse, Nullable<int> l)
+        {
+            var g = l + 1;
+            var record = db.Trades.Where(x => x.Id == g).FirstOrDefault();
+            if (record != null)
+            {
+                record.RSI = rse;
+                db.Entry(record).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+            }
+            return (record);
         }
 
         public Object UpperBollinger(double bollinger, double lowerbollinger, int t)
@@ -285,6 +298,7 @@ namespace PennyApp.Controllers
         }
             public void Bollingerfun()
             {
+            var rsi2 = db.Features.Select(z => z.RSIto).FirstOrDefault();
                 var rsi = db.Features.Select(d => d.RSIfrom).FirstOrDefault();
                 var y = db.Trades.Select(x => x.Ticker).ToArray();
                 var clolist = db.Trades.Select(x => x.Close).ToArray();
@@ -342,7 +356,84 @@ namespace PennyApp.Controllers
                     low = Convert.ToDouble(sum) - low;
                     UpperBollinger(res, low, i);
                 }
+            Nullable<double>[] vs = new Nullable<double>[100];
+            Nullable<double>[] gain = new Nullable<double>[100];
+            Nullable<double>[] loss = new Nullable<double>[100];
+            if (rsi2 != null)
+            {
+                for (var b = 0; b < rsi; b++)
+                {
+                    vs[b] = clolist[b] - clolist[b + 1];
+                    if (vs[b] > 0)
+                    {
+                        gain[b] = vs[b];
+                    }
+                    else
+                    {
+                        loss[b] = vs[b];
+                    }
+                }
+                Nullable<double> sm = 0;
+                Nullable<double> ls = 0;
+                Nullable<double> rs = 0;
+                for (var b = 0; b < rsi; b++)
+                {
+                    if (gain[b] != null)
+                    {
+                        sm += gain[b];
+                    }
+                    if (loss[b] != null)
+                    {
+                        ls += loss[b];
+                    }
+                }
+                sm = sm / rsi;
+                ls = ls / rsi;
+                rs = sm / ls;
+                rs = 100 / (1 + rs);
+                rs = 100 - rs;
+                rs = Convert.ToDouble(rs);
+                int z = 0;
+                Rsiupadte(rs, z);
             }
+            else
+            {
+                for (var b = 0; b < rsi; b++)
+                {
+                    vs[b] = clolist[b] - clolist[b + 1];
+                    if (vs[b] > 0)
+                    {
+                        gain[b] = vs[b];
+                    }
+                    else
+                    {
+                        loss[b] = vs[b];
+                    }
+                }
+                Nullable<double> sm = 0;
+                Nullable<double> ls = 0;
+                Nullable<double> rs = 0;
+                for (var b = 0; b < rsi; b++)
+                {
+                    if (gain[b] != null)
+                    {
+                        sm += gain[b];
+                    }
+                    if (loss[b] != null)
+                    {
+                        ls += loss[b];
+                    }
+                }
+                sm = sm / rsi;
+                ls = ls / rsi;
+                rs = sm / ls;
+                rs = 100 / (1 + rs);
+                rs = 100 - rs;
+                rs = Convert.ToDouble(rs);
+                int x = 0;
+                Rsiupadte(rs, x);
+            }
+        }
 
 
         [HttpGet]
@@ -431,13 +522,13 @@ namespace PennyApp.Controllers
                         {
                             ticker.ForEach(x =>
                             {
-                                 x.Ext1 = Convert.ToInt32(target[0]);
-                                 x.Ext2 = Convert.ToInt32(target[1]);
-                                 x.Ext3 = Convert.ToInt32(target[2]);
-                                 x.Ext4 = Convert.ToInt32(target[3]);
-                                 x.Ext5 = Convert.ToInt32(target[4]);
-                                 x.Ext6 = Convert.ToInt32(target[5]);
-                            }):
+                                x.Ext1 = Convert.ToInt32(target[0]);
+                                x.Ext2 = Convert.ToInt32(target[1]);
+                                x.Ext3 = Convert.ToInt32(target[2]);
+                                x.Ext4 = Convert.ToInt32(target[3]);
+                                x.Ext5 = Convert.ToInt32(target[4]);
+                                x.Ext6 = Convert.ToInt32(target[5]);
+                            });
                             break;
                         }
                     case 7:
@@ -509,7 +600,117 @@ namespace PennyApp.Controllers
             ViewBag.RepoPeriod = DrpReportPeroid();
             ViewBag.ReduceByVal = DrpReduceBy();
             ModelState.Clear();
-            return View();
+            int numberofrecord = 4000;
+            var data = db.Trades.Where(z => z.Ticker == simulationViewModel.Stratgy ).Select(x => new {
+                x.Date,
+                x.Close,
+                x.Open,
+                x.Low,
+                x.High,
+                x.Vol,
+                x.Moving_Avg,
+                x.Upper_BBand,
+                x.Lower_BBand
+            }).ToList();
+
+            if (simulationViewModel.Price_On)
+            {
+                if (simulationViewModel.Volume_On)
+                {
+                    
+                        if (simulationViewModel.Price_ValueTo == 1)
+                        {
+                        if (simulationViewModel.Volume_Status == 1)
+                        {
+                           data = data.Where(x => (Convert.ToDouble(x.Close) > Convert.ToDouble(simulationViewModel.Price_ValueFrom)) && (Convert.ToInt32(x.Vol) > simulationViewModel.Volume_status1)).ToList();
+                        }
+                        else if (simulationViewModel.Volume_Status == 2)
+                        {
+                            data = data.Where(x => (Convert.ToDouble(x.Close) > Convert.ToDouble(simulationViewModel.Price_ValueFrom)) && (Convert.ToInt32(x.Vol) < simulationViewModel.Volume_status1)).ToList();
+                        }
+                        else
+                        {
+                            data = data.Where(x => (Convert.ToDouble(x.Close) > Convert.ToDouble(simulationViewModel.Price_ValueFrom)) && (Convert.ToInt32(x.Vol) >= simulationViewModel.Volume_status1) && (Convert.ToInt32(x.Vol) <= simulationViewModel.Volume_status2)).ToList();
+                        }
+                    }
+                        else if (simulationViewModel.Price_ValueTo == 2)
+                        {
+                        if (simulationViewModel.Volume_Status == 1)
+                        {
+                            data = data.Where(x => (Convert.ToDouble(x.Close) < Convert.ToDouble(simulationViewModel.Price_ValueFrom)) && (Convert.ToInt32(x.Vol) > simulationViewModel.Volume_status1)).ToList();
+                        }
+                        else if (simulationViewModel.Volume_Status == 2)
+                        {
+                            data = data.Where(x => (Convert.ToDouble(x.Close) < Convert.ToDouble(simulationViewModel.Price_ValueFrom)) && (Convert.ToInt32(x.Vol) < simulationViewModel.Volume_status1)).ToList();
+                        }
+                        else
+                        {
+                            data = data.Where(x => (Convert.ToDouble(x.Close) < Convert.ToDouble(simulationViewModel.Price_ValueFrom)) && (Convert.ToInt32(x.Vol) >= simulationViewModel.Volume_status1) && (Convert.ToInt32(x.Vol) <= simulationViewModel.Volume_status2)).ToList();
+                        }
+                    }
+                        else
+                        {
+                        if (simulationViewModel.Volume_Status == 1)
+                        {
+                            data = data.Where(x => (Convert.ToDouble(x.Close) >= Convert.ToDouble(simulationViewModel.Price_ValueFrom)) && (Convert.ToDouble(x.Close) <= Convert.ToDouble(simulationViewModel.Price_Status)) && (Convert.ToInt32(x.Vol) > simulationViewModel.Volume_status1)).ToList();
+                        }
+                        else if (simulationViewModel.Volume_Status == 2)
+                        {
+                            data = data.Where(x => (Convert.ToDouble(x.Close) >= Convert.ToDouble(simulationViewModel.Price_ValueFrom)) && (Convert.ToDouble(x.Close) <= Convert.ToDouble(simulationViewModel.Price_Status)) && (Convert.ToInt32(x.Vol) < simulationViewModel.Volume_status1)).ToList();
+                        }
+                        else
+                        {
+                            data = data.Where(x => (Convert.ToDouble(x.Close) >= Convert.ToDouble(simulationViewModel.Price_ValueFrom)) && (Convert.ToDouble(x.Close) <= Convert.ToDouble(simulationViewModel.Price_Status)) && (Convert.ToInt32(x.Vol) >= simulationViewModel.Volume_status1) && (Convert.ToInt32(x.Vol) <= simulationViewModel.Volume_status2)).ToList();
+                        }
+                    }
+                }
+                else
+                {
+                    if (simulationViewModel.Price_ValueTo == 1)
+                    {
+                        data = data.Where(x => (Convert.ToDouble(x.Close) > Convert.ToDouble(simulationViewModel.Price_ValueFrom)) ).ToList();
+                    }
+                    else if (simulationViewModel.Price_ValueTo == 2)
+                    {
+                        data = data.Where(x => (Convert.ToDouble(x.Close) < Convert.ToDouble(simulationViewModel.Price_ValueFrom))).ToList();
+                    }
+                    else
+                    {
+                        data = data.Where(x => (Convert.ToDouble(x.Close) >= Convert.ToDouble(simulationViewModel.Price_ValueFrom)) && (Convert.ToDouble(x.Close) <= Convert.ToDouble(simulationViewModel.Price_Status))).ToList();
+                    }
+                }
+            }
+            else
+            {
+                if (simulationViewModel.Volume_On)
+                {
+                    if (simulationViewModel.Volume_Status == 1)
+                    {
+                        data = data.Where(x => (Convert.ToInt32(x.Vol) > simulationViewModel.Volume_status1)).ToList();
+                    }
+                    else if (simulationViewModel.Volume_Status == 2)
+                    {
+                        data = data.Where(x => (Convert.ToInt32(x.Vol) < simulationViewModel.Volume_status1)).ToList();
+                    }
+                    else
+                    {
+                        data = data.Where(x =>(Convert.ToInt32(x.Vol) >= simulationViewModel.Volume_status1) && (Convert.ToInt32(x.Vol) <= simulationViewModel.Volume_status2)).ToList();
+                    }
+                }
+                else
+                {
+                    //do nothing.
+                }
+            }
+
+            ViewBag.data = JsonConvert.SerializeObject(data.Take(numberofrecord));
+            ViewBag.tickername = simulationViewModel.Stratgy;
+            if (simulationViewModel.Avg_Volume_check)
+            {
+                ViewBag.AverageVolume = data.Take(numberofrecord).Select(x => x.Vol).Average();
+            }
+
+            return View("~/Views/Home/OHLC.cshtml");
         }
         public List<SelectListItem> DrpReduceBy()
         {

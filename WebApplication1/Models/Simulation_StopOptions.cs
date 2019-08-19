@@ -40,8 +40,9 @@ namespace PennyApp.Models
         public int Avg_Volume_On { get; set; }
         public bool Avg_Volume_check { get; set; }
         public List<ValueModel> Avg_Volume_Status { get; set; }
-        public int Avg_Volume_Value1 { get; set; }
-        public int Avg_Volume_Value2 { get; set; }
+
+        //public int Avg_Volume_Value1 { get; set; }
+        //public int Avg_Volume_Value2 { get; set; }
     }
 }
 
